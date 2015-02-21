@@ -4,6 +4,9 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Antlr.Runtime.Misc;
+using AutoMapper;
+using Stackoverflow_CGVM.Data;
+using Stackoverflow_CGVM.Domain.Entities;
 using WebApplication1.Models;
 
 namespace WebApplication1.Controllers
@@ -11,6 +14,11 @@ namespace WebApplication1.Controllers
     [Authorize]
     public class QuestionController : Controller
     {
+        private readonly IMappingEngine _mappingEngine;
+        public QuestionController(IMappingEngine mappingEngine)
+        {
+            _mappingEngine = mappingEngine;
+        }
         //
         // GET: /Question/
         [AllowAnonymous]
@@ -36,9 +44,19 @@ namespace WebApplication1.Controllers
             return View(models);
         }
 
-        public ActionResult CreateQuestion()
+        public ActionResult CreateQuestion(CreateQuestionModel modelo)
         {
-            return View(new CreateQuestionModel());
+
+            if (ModelState.IsValid)
+            {
+                var newQuestion = _mappingEngine.Map<CreateQuestionModel, Question>(modelo);
+                var context = new StackoverflowContext();
+                context.Questions.Add(newQuestion);
+                context.SaveChangesAsync();
+                return RedirectToAction("Index");
+
+            }
+            return View(modelo);
         }
 
 	}
