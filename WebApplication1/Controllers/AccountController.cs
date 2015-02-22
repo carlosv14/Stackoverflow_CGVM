@@ -53,7 +53,8 @@ namespace WebApplication1.Controllers
             var Account = context.Accounts.FirstOrDefault(x => x.Email == model.Email && x.Passw == model.Passw);
             if (Account != null)
             {
-                FormsAuthentication.SetAuthCookie(model.Email, false);
+                FormsAuthentication.SetAuthCookie(Account.Id.ToString(), false);
+               
                 return RedirectToAction("Index", "Question");
             }
             return View(model);
@@ -65,6 +66,10 @@ namespace WebApplication1.Controllers
             return RedirectToAction("Index", "Question");
 
         }
-       
+
+        public ActionResult Profile(ProfileModel modelo)
+        {
+            return View(modelo);
+        }
     }
 }

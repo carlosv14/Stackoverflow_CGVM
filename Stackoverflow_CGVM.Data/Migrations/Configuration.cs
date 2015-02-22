@@ -9,8 +9,7 @@ namespace Stackoverflow_CGVM.Data.Migrations
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = false;
-            ContextKey = "Stackoverflow_CGVM.Data.StackoverflowContext";
+            AutomaticMigrationsEnabled = true;
         }
 
         protected override void Seed(Stackoverflow_CGVM.Data.StackoverflowContext context)

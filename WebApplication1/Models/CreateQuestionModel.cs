@@ -13,6 +13,7 @@ namespace WebApplication1.Models
         public string Title { get; set; }
 
         [Required]
-        public string Body { get; set; }
+        public string Description { get; set; }
+
     }
 }

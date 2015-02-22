@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 using Antlr.Runtime.Misc;
 using AutoMapper;
 using Stackoverflow_CGVM.Data;
@@ -25,22 +26,18 @@ namespace WebApplication1.Controllers
         public ActionResult Index()
         {
             IList<QuestionListModel> models = new ListStack<QuestionListModel>();
-            QuestionListModel question1 = new QuestionListModel();
-            question1.Title = "Title Test";
-            question1.Votes = 1;
-            question1.CreationTime = DateTime.Now;
-            question1.OwnerName = "Carlos";
-            question1.QuestionId = Guid.NewGuid();
-            question1.OwnerId = Guid.NewGuid();
-            models.Add(question1);
-            QuestionListModel question2 = new QuestionListModel();
-            question2.Title = "Title Test2";
-            question2.Votes = 2;
-            question2.CreationTime = DateTime.Now;
-            question2.QuestionId = Guid.NewGuid();
-            question2.OwnerName = "Varela";
-            question2.OwnerId = Guid.NewGuid();
-            models.Add(question2);
+            var context = new StackoverflowContext();
+            foreach (Question q in context.Questions)
+            {
+                QuestionListModel question1 = new QuestionListModel();
+                question1.Title = q.Title;
+                question1.Votes = q.Votes;
+                question1.CreationTime = q.CreationDate;
+                question1.OwnerName = " ";
+                question1.QuestionId = q.Id;
+                question1.OwnerId = Guid.NewGuid();
+                models.Add(question1);
+            }
             return View(models);
         }
 
@@ -49,10 +46,20 @@ namespace WebApplication1.Controllers
 
             if (ModelState.IsValid)
             {
-                var newQuestion = _mappingEngine.Map<CreateQuestionModel, Question>(modelo);
-                var context = new StackoverflowContext();
-                context.Questions.Add(newQuestion);
-                context.SaveChangesAsync();
+                 var context = new StackoverflowContext();
+                 var newQuestion = _mappingEngine.Map<CreateQuestionModel, Question>(modelo);
+                HttpCookie cookie = Request.Cookies[FormsAuthentication.FormsCookieName];
+                if (cookie != null)
+                {
+                    FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(cookie.Value);
+                    Guid ownerId = Guid.Parse(ticket.Name);
+                    newQuestion.Votes = 1;
+                    newQuestion.Owner = context.Accounts.FirstOrDefault(x => x.Id == ownerId);
+                    newQuestion.ModificationDate = DateTime.Now;
+                    newQuestion.CreationDate = DateTime.Now;
+                    context.Questions.Add(newQuestion);
+                    context.SaveChanges();
+                }
                 return RedirectToAction("Index");
 
             }

@@ -11,10 +11,6 @@ namespace Stackoverflow_CGVM.Domain.Entities
     {
         public Guid Id { get; private set; }
 
-        public Question()
-        {
-            Guid.NewGuid();
-        }
 
         public int Votes { get; set; }
         public string Description { get; set; }
@@ -23,7 +19,11 @@ namespace Stackoverflow_CGVM.Domain.Entities
         public DateTime CreationDate { get; set; }
         public DateTime ModificationDate { get; set; }
 
+        public Question()
+        {
 
+           Id= Guid.NewGuid();
+        }
 
 
     }
