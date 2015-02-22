@@ -142,13 +142,16 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\AnswerCreateModel.cs" />
     <Compile Include="Models\AnswerListModel.cs" />
     <Compile Include="Models\AnswerModel.cs" />
     <Compile Include="Models\CreateQuestionModel.cs" />
     <Compile Include="Models\DetailModel.cs" />
+    <Compile Include="Models\PasswordRecoveryModel.cs" />
     <Compile Include="Models\ProfileModel.cs" />
     <Compile Include="Models\QuestionListModel.cs" />
     <Compile Include="Models\LoginModel.cs" />
+    <Compile Include="Models\VerifyingPasswordModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -161,6 +164,7 @@
     <Content Include="Views\Account\Scripts\bootstrap.js" />
     <Content Include="Views\Account\Scripts\bootstrap.min.js" />
     <Content Include="ClassDiagram1.cd" />
+    <Content Include="Views\Account\PasswordRecovery.cshtml" />
     <None Include="Views\Account\Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Views\Account\Scripts\jquery-1.10.2.js" />
     <Content Include="Views\Account\Scripts\jquery-1.10.2.min.js" />
@@ -190,9 +194,11 @@
     <Content Include="Views\Question\CreateQuestion.cshtml" />
     <Content Include="Views\Account\Profile.cshtml" />
     <Content Include="Views\Question\Detail.cshtml" />
-    <Content Include="Views\Question\Answer.cshtml" />
-    <Content Include="Views\Answer\Index.cshtml" />
     <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Answer\Index.cshtml" />
+    <Content Include="Views\Answer\CreateAnswer.cshtml" />
+    <Content Include="Views\Account\VerifyingPassword.cshtml" />
+    <Content Include="Views\Answer\ViewAnswer.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Stackoverflow_CGVM.Data\Stackoverflow_CGVM.Data.csproj">

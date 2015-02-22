@@ -17,6 +17,7 @@ namespace WebApplication1.App_Start
             Mapper.CreateMap<LoginModel, Account>().ReverseMap();
             Mapper.CreateMap<CreateQuestionModel, Question>().ReverseMap();
             Mapper.CreateMap<AnswerModel, Answer>().ReverseMap();
+            Mapper.CreateMap<AnswerCreateModel, Answer>();
         }
     }
 }

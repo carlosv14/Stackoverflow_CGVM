@@ -6,15 +6,9 @@ using System.Web;
 
 namespace WebApplication1.Models
 {
-    public class AnswerModel
+    public class AnswerCreateModel
     {
         [Required]
         public string Description { get; set; }
-        public int Votes { get; set; }
-        public DateTime CreationDate { get; set; }
-        public DateTime ModificationDate { get; set; }
-        public string OwnerName { get; set;  }
-        
-      
     }
 }

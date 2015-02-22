@@ -23,11 +23,11 @@ namespace WebApplication1.Controllers
         {
             IList<AnswerListModel> models = new ListStack<AnswerListModel>();
             var context = new StackoverflowContext();
-
+            int cont = 1;
             foreach (Answer a in context.Answers)
             {
                 AnswerListModel answer = new AnswerListModel();
-
+                answer.name = "Ref" + cont++;
                 answer.Votes = a.Votes;
                 answer.CreationTime = a.CreationDate;
                 answer.OwnerName = a.Owner.Name;
@@ -41,7 +41,7 @@ namespace WebApplication1.Controllers
         
         public ActionResult CreateAnswer()
         {
-            return View(new AnswerModel());
+            return View(new AnswerCreateModel());
         }
 
 
@@ -72,6 +72,13 @@ namespace WebApplication1.Controllers
             return View(modelo);
         }
 
+        public ActionResult ViewAnswer( Guid id)
+        {
+            var context = new StackoverflowContext();
+            var answer = context.Answers.Find(id);
+            AnswerModel model = _mappingEngine.Map<Answer, AnswerModel>(answer);
+            return View(model);
+        }
     }
 
    

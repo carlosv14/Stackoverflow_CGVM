@@ -1,13 +1,13 @@
 ﻿@model IEnumerable<WebApplication1.Models.AnswerListModel>
 
 @{
-    ViewBag.Title = "Answers";
+    ViewBag.Title = "Index";
 }
 
 <h2>Index</h2>
 
 <p>
-    @Html.ActionLink("Create New Answer", "CreateAnswer")
+    @Html.ActionLink("Create New", "CreateAnswer")
 </p>
 <table class="table">
     <tr>
@@ -20,14 +20,17 @@
         <th>
             @Html.DisplayNameFor(model => model.OwnerName)
         </th>
-        <th>
+        @*<th>
             @Html.DisplayNameFor(model => model.OwnerId)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.QuestionId)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.AnswerId)
+            @Html.DisplayNameFor(model => model.AnswerId)*@
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.name)
         </th>
         <th></th>
     </tr>
@@ -43,7 +46,7 @@
         <td>
             @Html.DisplayFor(modelItem => item.OwnerName)
         </td>
-        <td>
+        @*<td>
             @Html.DisplayFor(modelItem => item.OwnerId)
         </td>
         <td>
@@ -51,6 +54,9 @@
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.AnswerId)
+        </td>*@
+        <td>
+            @Html.ActionLink(item.name, "ViewAnswer","Answer" ,new { id = item.AnswerId }, null)
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |

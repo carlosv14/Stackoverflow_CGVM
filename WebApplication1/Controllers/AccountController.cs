@@ -94,5 +94,25 @@ namespace WebApplication1.Controllers
             }
             return RedirectToAction("Index","Question");
         }
+
+        public ActionResult VerifyingPassword(string passw)
+        {
+            VerifyingPasswordModel model = new VerifyingPasswordModel();
+            model.Passw = passw;
+            return View(model);
+        }
+        public ActionResult PasswordRecovery(PasswordRecoveryModel modelo)
+        {
+             var context = new StackoverflowContext();
+            var Account = context.Accounts.FirstOrDefault(x => x.Email == modelo.Email);
+            if (Account != null)
+                return RedirectToAction("VerifyingPassword", "Account",new {passw = Account.Passw });
+           
+            return View(modelo);
+        }
+
+       
+
+      
     }
 }
