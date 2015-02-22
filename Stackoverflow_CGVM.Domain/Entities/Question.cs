@@ -14,7 +14,7 @@ namespace Stackoverflow_CGVM.Domain.Entities
 
         public int Votes { get; set; }
         public string Description { get; set; }
-        public Account Owner { get; set; }
+        public virtual Account Owner { get; set; }
         public string Title { get; set; }
         public DateTime CreationDate { get; set; }
         public DateTime ModificationDate { get; set; }

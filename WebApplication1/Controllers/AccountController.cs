@@ -69,6 +69,15 @@ namespace WebApplication1.Controllers
 
         public ActionResult Profile(ProfileModel modelo)
         {
+            var context =  new StackoverflowContext();
+             HttpCookie cookie = Request.Cookies[FormsAuthentication.FormsCookieName];
+            if (cookie != null)
+            {
+                FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(cookie.Value);
+                Guid UserId = Guid.Parse(ticket.Name);
+                modelo.Email = context.Accounts.FirstOrDefault(x => x.Id == UserId).Email;
+                modelo.Name = context.Accounts.FirstOrDefault(x => x.Id == UserId).Name;
+            }
             return View(modelo);
         }
     }

@@ -27,17 +27,19 @@ namespace WebApplication1.Controllers
         {
             IList<QuestionListModel> models = new ListStack<QuestionListModel>();
             var context = new StackoverflowContext();
+            
             foreach (Question q in context.Questions)
             {
                 QuestionListModel question1 = new QuestionListModel();
                 question1.Title = q.Title;
                 question1.Votes = q.Votes;
                 question1.CreationTime = q.CreationDate;
-                question1.OwnerName = " ";
+                question1.OwnerName = q.Owner.Name;
                 question1.QuestionId = q.Id;
                 question1.OwnerId = Guid.NewGuid();
                 models.Add(question1);
             }
+           
             return View(models);
         }
 
@@ -64,6 +66,14 @@ namespace WebApplication1.Controllers
 
             }
             return View(modelo);
+        }
+
+        public ActionResult Detail(DetailModel model,string Title )
+        {
+            var context = new StackoverflowContext();
+            model.Title = context.Questions.FirstOrDefault(x => x.Title == Title).Title;
+            model.Description = context.Questions.FirstOrDefault(x => x.Title == Title).Description; 
+            return View(model);
         }
 
 	}

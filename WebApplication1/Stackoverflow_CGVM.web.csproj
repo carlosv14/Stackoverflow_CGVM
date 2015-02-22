@@ -142,6 +142,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\CreateQuestionModel.cs" />
+    <Compile Include="Models\DetailModel.cs" />
     <Compile Include="Models\ProfileModel.cs" />
     <Compile Include="Models\QuestionListModel.cs" />
     <Compile Include="Models\LoginModel.cs" />
@@ -185,6 +186,7 @@
     <Content Include="Views\Question\Index.cshtml" />
     <Content Include="Views\Question\CreateQuestion.cshtml" />
     <Content Include="Views\Account\Profile.cshtml" />
+    <Content Include="Views\Question\Detail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Stackoverflow_CGVM.Data\Stackoverflow_CGVM.Data.csproj">
