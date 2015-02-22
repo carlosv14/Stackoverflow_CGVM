@@ -46,16 +46,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Migrations\201502210143192_AddQuestion.cs" />
-    <Compile Include="Migrations\201502210143192_AddQuestion.Designer.cs">
-      <DependentUpon>201502210143192_AddQuestion.cs</DependentUpon>
-    </Compile>
-    <Compile Include="StackoverflowContext.cs" />
-    <Compile Include="Migrations\201502210129298_InitialCreate.cs" />
-    <Compile Include="Migrations\201502210129298_InitialCreate.Designer.cs">
-      <DependentUpon>201502210129298_InitialCreate.cs</DependentUpon>
+    <Compile Include="Migrations\201502222115512_InitialCreate.cs" />
+    <Compile Include="Migrations\201502222115512_InitialCreate.Designer.cs">
+      <DependentUpon>201502222115512_InitialCreate.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="StackoverflowContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -69,11 +65,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201502210129298_InitialCreate.resx">
-      <DependentUpon>201502210129298_InitialCreate.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201502210143192_AddQuestion.resx">
-      <DependentUpon>201502210143192_AddQuestion.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201502222115512_InitialCreate.resx">
+      <DependentUpon>201502222115512_InitialCreate.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

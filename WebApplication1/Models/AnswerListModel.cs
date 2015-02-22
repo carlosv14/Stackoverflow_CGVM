@@ -13,5 +13,7 @@ namespace WebApplication1.Models
         public Guid OwnerId { get; set; }
         public Guid QuestionId { get; set; }
         public Guid AnswerId { get; set; }
+
+       
     }
 }

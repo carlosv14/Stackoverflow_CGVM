@@ -178,7 +178,6 @@
       <DependentUpon>Web.config</DependentUpon>
     </Content>
     <Content Include="Views\Web.config" />
-    <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\About.cshtml" />
@@ -193,6 +192,7 @@
     <Content Include="Views\Question\Detail.cshtml" />
     <Content Include="Views\Question\Answer.cshtml" />
     <Content Include="Views\Answer\Index.cshtml" />
+    <Content Include="Views\_ViewStart.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Stackoverflow_CGVM.Data\Stackoverflow_CGVM.Data.csproj">
