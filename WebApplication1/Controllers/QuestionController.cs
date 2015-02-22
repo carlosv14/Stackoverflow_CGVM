@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Policy;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
@@ -36,13 +37,18 @@ namespace WebApplication1.Controllers
                 question1.CreationTime = q.CreationDate;
                 question1.OwnerName = q.Owner.Name;
                 question1.QuestionId = q.Id;
-                question1.OwnerId = Guid.NewGuid();
+                question1.OwnerId = q.Owner.Id;
                 models.Add(question1);
             }
            
             return View(models);
         }
 
+        public ActionResult CreateQuestion()
+        {
+            return View(new CreateQuestionModel());
+        }
+                [HttpPost]
         public ActionResult CreateQuestion(CreateQuestionModel modelo)
         {
 
@@ -68,13 +74,19 @@ namespace WebApplication1.Controllers
             return View(modelo);
         }
 
-        public ActionResult Detail(DetailModel model,string Title )
+        public ActionResult Detail(DetailModel model,Guid Id )
         {
             var context = new StackoverflowContext();
-            model.Title = context.Questions.FirstOrDefault(x => x.Title == Title).Title;
-            model.Description = context.Questions.FirstOrDefault(x => x.Title == Title).Description; 
+            model.Title = context.Questions.FirstOrDefault(x => x.Id == Id).Title;
+            model.Description = context.Questions.FirstOrDefault(x => x.Id == Id).Description; 
             return View(model);
         }
 
+        public ActionResult Answer (AnswerModel model)
+        {
+            var newAnswer =_mappingEngine.Map<AnswerModel, Answer>(model);
+            
+            return View(model);
+        }
 	}
 }

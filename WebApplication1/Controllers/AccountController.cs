@@ -66,19 +66,33 @@ namespace WebApplication1.Controllers
             return RedirectToAction("Index", "Question");
 
         }
-
-        public ActionResult Profile(ProfileModel modelo)
+          
+        public ActionResult Profile(ProfileModel modelo, Guid Id)
         {
             var context =  new StackoverflowContext();
-             HttpCookie cookie = Request.Cookies[FormsAuthentication.FormsCookieName];
+            modelo.Name = context.Accounts.FirstOrDefault(x => x.Id == Id).Name;
+            modelo.Email = context.Accounts.FirstOrDefault(x => x.Id == Id).Email;
+            modelo.Reputation = 0;
+            return View(modelo);
+        }
+
+        public ActionResult CurrentProfile()
+        {
+            ProfileModel
+            modelo = new ProfileModel();
+            var context = new StackoverflowContext();
+
+            HttpCookie cookie = Request.Cookies[FormsAuthentication.FormsCookieName];
             if (cookie != null)
             {
                 FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(cookie.Value);
                 Guid UserId = Guid.Parse(ticket.Name);
                 modelo.Email = context.Accounts.FirstOrDefault(x => x.Id == UserId).Email;
                 modelo.Name = context.Accounts.FirstOrDefault(x => x.Id == UserId).Name;
+               return RedirectToAction("Profile",new {id = UserId});
+               
             }
-            return View(modelo);
+            return RedirectToAction("Index","Question");
         }
     }
 }

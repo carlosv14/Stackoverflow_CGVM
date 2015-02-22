@@ -1,4 +1,5 @@
 ﻿@using System
+@using Stackoverflow_CGVM.Data
 <!DOCTYPE html>
 <html>
 <head>
@@ -24,6 +25,8 @@
                     @if (Context.User.Identity.IsAuthenticated)
                     {
                         <li>@Html.ActionLink("Logout", "Logout", "Account")</li>
+                         <li>@Html.ActionLink("Profile", "CurrentProfile", "Account")</li>
+                      
                     }
                     else
                     {

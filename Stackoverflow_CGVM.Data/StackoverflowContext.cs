@@ -12,6 +12,7 @@ namespace Stackoverflow_CGVM.Data
     {
         public DbSet<Account> Accounts { get; set; }
         public DbSet<Question> Questions { get; set; }
+        public DbSet<Answer> Answers { get; set; } 
         
     }
 }

@@ -135,12 +135,15 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\AutoFacConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AnswerController.cs" />
     <Compile Include="Controllers\QuestionController.cs" />
     <Compile Include="Models\AccountRegisterModel.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\AnswerListModel.cs" />
+    <Compile Include="Models\AnswerModel.cs" />
     <Compile Include="Models\CreateQuestionModel.cs" />
     <Compile Include="Models\DetailModel.cs" />
     <Compile Include="Models\ProfileModel.cs" />
@@ -157,6 +160,7 @@
     <Content Include="Content\Site.css" />
     <Content Include="Views\Account\Scripts\bootstrap.js" />
     <Content Include="Views\Account\Scripts\bootstrap.min.js" />
+    <Content Include="ClassDiagram1.cd" />
     <None Include="Views\Account\Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Views\Account\Scripts\jquery-1.10.2.js" />
     <Content Include="Views\Account\Scripts\jquery-1.10.2.min.js" />
@@ -187,6 +191,8 @@
     <Content Include="Views\Question\CreateQuestion.cshtml" />
     <Content Include="Views\Account\Profile.cshtml" />
     <Content Include="Views\Question\Detail.cshtml" />
+    <Content Include="Views\Question\Answer.cshtml" />
+    <Content Include="Views\Answer\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Stackoverflow_CGVM.Data\Stackoverflow_CGVM.Data.csproj">
