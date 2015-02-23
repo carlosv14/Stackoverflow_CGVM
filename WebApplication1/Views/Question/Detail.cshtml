@@ -29,7 +29,9 @@
     </dl>
 </div>
 <p>
-    @*@Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |*@
+    @Html.ActionLink("Like", "MeGusta", new {id = Model.Id},null) |
+    @Html.ActionLink("Unlike", "NoMeGusta", new { id = Model.Id },null)
+    
     @Html.ActionLink("Back to List", "Index")
-    @Html.ActionLink("Answers", "Index","Answer")
+    @Html.ActionLink("Answers", "Index", "Answer")
 </p>

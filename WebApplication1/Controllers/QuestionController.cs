@@ -61,7 +61,7 @@ namespace WebApplication1.Controllers
                 {
                     FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(cookie.Value);
                     Guid ownerId = Guid.Parse(ticket.Name);
-                    newQuestion.Votes = 1;
+                    newQuestion.Votes =0;
                     newQuestion.Owner = context.Accounts.FirstOrDefault(x => x.Id == ownerId);
                     newQuestion.ModificationDate = DateTime.Now;
                     newQuestion.CreationDate = DateTime.Now;
@@ -74,19 +74,32 @@ namespace WebApplication1.Controllers
             return View(modelo);
         }
          [AllowAnonymous]
-        public ActionResult Detail(DetailModel model,Guid Id )
+        public ActionResult Detail(Guid Id )
         {
+             DetailModel model = new DetailModel();
+             var question = _mappingEngine.Map<DetailModel, Question>(model);    
             var context = new StackoverflowContext();
             model.Title = context.Questions.FirstOrDefault(x => x.Id == Id).Title;
-            model.Description = context.Questions.FirstOrDefault(x => x.Id == Id).Description; 
+            model.Description = context.Questions.FirstOrDefault(x => x.Id == Id).Description;
+            model.Votes = context.Questions.FirstOrDefault(x => x.Id == Id).Votes;
+            model.Id = context.Questions.FirstOrDefault(x => x.Id == Id).Id;
             return View(model);
         }
 
-        public ActionResult Answer (AnswerModel model)
+        
+        public ActionResult MeGusta(Guid Id)
         {
-            var newAnswer =_mappingEngine.Map<AnswerModel, Answer>(model);
-            
-            return View(model);
+            var context = new StackoverflowContext();
+            context.Questions.Find(Id).Votes++;
+            context.SaveChanges();
+            return RedirectToAction("Index", "Question");
+        }
+        public ActionResult NoMeGusta(Guid Id)
+        {
+            var context = new StackoverflowContext();
+            context.Questions.Find(Id).Votes--;
+            context.SaveChanges();
+            return RedirectToAction("Index", "Question");
         }
 	}
 }

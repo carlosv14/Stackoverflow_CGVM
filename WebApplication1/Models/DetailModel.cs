@@ -12,6 +12,7 @@ namespace WebApplication1.Models
         public string Title { get; set; }
         [Required]
         public string Description { get; set; }
-       
+        public Guid Id { get;  set; }
+        public int Votes { get; set; }
     }
 }
