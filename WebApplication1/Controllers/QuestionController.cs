@@ -73,7 +73,7 @@ namespace WebApplication1.Controllers
             }
             return View(modelo);
         }
-
+         [AllowAnonymous]
         public ActionResult Detail(DetailModel model,Guid Id )
         {
             var context = new StackoverflowContext();

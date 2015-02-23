@@ -14,6 +14,7 @@ namespace WebApplication1.Models
         public DateTime CreationDate { get; set; }
         public DateTime ModificationDate { get; set; }
         public string OwnerName { get; set;  }
+        public Guid Id { get; set; }
         
       
     }

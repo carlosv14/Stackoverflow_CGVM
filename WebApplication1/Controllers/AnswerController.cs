@@ -10,8 +10,10 @@ using Stackoverflow_CGVM.Data;
 using Stackoverflow_CGVM.Domain.Entities;
 using WebApplication1.Models;
 
+
 namespace WebApplication1.Controllers
 {
+    [Authorize]
     public class AnswerController : Controller
     {
         private readonly IMappingEngine _mappingEngine;
@@ -19,6 +21,7 @@ namespace WebApplication1.Controllers
         {
             _mappingEngine = mappingEngine;
         }
+        [AllowAnonymous]
         public ActionResult Index()
         {
             IList<AnswerListModel> models = new ListStack<AnswerListModel>();
@@ -72,12 +75,29 @@ namespace WebApplication1.Controllers
             return View(modelo);
         }
 
+        [AllowAnonymous]
         public ActionResult ViewAnswer( Guid id)
         {
             var context = new StackoverflowContext();
             var answer = context.Answers.Find(id);
             AnswerModel model = _mappingEngine.Map<Answer, AnswerModel>(answer);
             return View(model);
+        }
+
+        public ActionResult MeGusta(Guid Id)
+        {
+            var context = new StackoverflowContext();
+            context.Answers.Find(Id).Votes ++;
+            context.SaveChanges();
+            return RedirectToAction("Index","Answer");
+        }
+
+        public ActionResult NoMeGusta(Guid Id)
+        {
+            var context = new StackoverflowContext();
+            context.Answers.Find(Id).Votes--;
+            context.SaveChanges();
+            return RedirectToAction("Index", "Answer");
         }
     }
 
