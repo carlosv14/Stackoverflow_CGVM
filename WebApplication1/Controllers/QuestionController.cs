@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security.Policy;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Routing;
 using System.Web.Security;
 using Antlr.Runtime.Misc;
 using AutoMapper;
@@ -92,14 +93,23 @@ namespace WebApplication1.Controllers
             var context = new StackoverflowContext();
             context.Questions.Find(Id).Votes++;
             context.SaveChanges();
-            return RedirectToAction("Index", "Question");
+            return RedirectToAction("Detail", new {Id = Id});
         }
         public ActionResult NoMeGusta(Guid Id)
         {
             var context = new StackoverflowContext();
             context.Questions.Find(Id).Votes--;
             context.SaveChanges();
-            return RedirectToAction("Index", "Question");
+            return RedirectToAction("Detail", new { Id = Id });
         }
-	}
+
+        public ActionResult Answer(Guid Id)
+        {
+            return RedirectToAction("Index","Answer",new {questionId = Id});
+        }
+        public ActionResult CreateAnswer(Guid Id)
+        {
+            return RedirectToAction("CreateAnswer", "Answer", new { questionId = Id });
+        }
+    }
 }

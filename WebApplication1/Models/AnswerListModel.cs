@@ -15,5 +15,6 @@ namespace WebApplication1.Models
         public Guid AnswerId { get; set; }
 
         public string name { get; set; }
+       
     }
 }

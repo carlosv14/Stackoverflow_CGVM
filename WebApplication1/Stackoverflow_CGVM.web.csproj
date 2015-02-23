@@ -194,11 +194,11 @@
     <Content Include="Views\Question\CreateQuestion.cshtml" />
     <Content Include="Views\Account\Profile.cshtml" />
     <Content Include="Views\_ViewStart.cshtml" />
-    <Content Include="Views\Answer\Index.cshtml" />
-    <Content Include="Views\Answer\CreateAnswer.cshtml" />
     <Content Include="Views\Account\VerifyingPassword.cshtml" />
     <Content Include="Views\Answer\ViewAnswer.cshtml" />
     <Content Include="Views\Question\Detail.cshtml" />
+    <Content Include="Views\Answer\Index.cshtml" />
+    <Content Include="Views\Answer\CreateAnswer.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Stackoverflow_CGVM.Data\Stackoverflow_CGVM.Data.csproj">

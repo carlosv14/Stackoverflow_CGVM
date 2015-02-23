@@ -10,5 +10,6 @@ namespace WebApplication1.Models
     {
         [Required]
         public string Description { get; set; }
+        public Guid QuestionId { get; set; }
     }
 }

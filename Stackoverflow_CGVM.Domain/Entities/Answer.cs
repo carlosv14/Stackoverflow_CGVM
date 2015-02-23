@@ -18,6 +18,7 @@ namespace Stackoverflow_CGVM.Domain.Entities
         public DateTime CreationDate { get; set; }
         public DateTime ModificationDate { get; set; }
 
+        public Guid QuestionId { get; set; }
         public Answer()
         {
 

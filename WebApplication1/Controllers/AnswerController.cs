@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Routing;
 using System.Web.Security;
 using Antlr.Runtime.Misc;
 using AutoMapper;
@@ -21,23 +22,31 @@ namespace WebApplication1.Controllers
         {
             _mappingEngine = mappingEngine;
         }
+
+       
         [AllowAnonymous]
-        public ActionResult Index()
+        public ActionResult Index(Guid questionId)
         {
+            
             IList<AnswerListModel> models = new ListStack<AnswerListModel>();
             var context = new StackoverflowContext();
             int cont = 1;
             foreach (Answer a in context.Answers)
             {
-                AnswerListModel answer = new AnswerListModel();
-                answer.name = "Ref" + cont++;
-                answer.Votes = a.Votes;
-                answer.CreationTime = a.CreationDate;
-                answer.OwnerName = a.Owner.Name;
-                answer.AnswerId = a.Id;
-                answer.OwnerId = a.Owner.Id;
-                models.Add(answer);
+                if (a.QuestionId == questionId)
+                {
+                    AnswerListModel answer = new AnswerListModel();
+                    answer.name = "Ref" + cont++;
+                    answer.Votes = a.Votes;
+                    answer.CreationTime = a.CreationDate;
+                    answer.OwnerName = a.Owner.Name;
+                    answer.AnswerId = a.Id;
+                    answer.QuestionId = a.QuestionId;
+                    answer.OwnerId = a.Owner.Id;
+                    models.Add(answer);
+                }
             }
+            
             return View(models);
         }
 
@@ -49,12 +58,12 @@ namespace WebApplication1.Controllers
 
 
         [HttpPost]
-        public ActionResult CreateAnswer(AnswerModel modelo)
+        public ActionResult CreateAnswer(AnswerCreateModel modelo,Guid questionId)
         {
             if (ModelState.IsValid)
             {
                 var context = new StackoverflowContext();
-                var newAnswer = _mappingEngine.Map<AnswerModel, Answer>(modelo);
+                var newAnswer = _mappingEngine.Map<AnswerCreateModel, Answer>(modelo);
                 HttpCookie cookie = Request.Cookies[FormsAuthentication.FormsCookieName];
                 if (cookie != null)
                 {
@@ -64,11 +73,11 @@ namespace WebApplication1.Controllers
                     newAnswer.ModificationDate = newAnswer.CreationDate;
                     newAnswer.Owner = context.Accounts.FirstOrDefault(x => x.Id == ownerId);
                     newAnswer.Votes = 0;
-                    
+                    newAnswer.QuestionId = questionId;
                     context.Answers.Add(newAnswer);
                     context.SaveChanges();
                 }
-                return RedirectToAction("Index");
+                return RedirectToAction("Index","Question");
 
             }
            
@@ -89,7 +98,8 @@ namespace WebApplication1.Controllers
             var context = new StackoverflowContext();
             context.Answers.Find(Id).Votes ++;
             context.SaveChanges();
-            return RedirectToAction("Index","Answer");
+            Guid qId = context.Answers.Find(Id).QuestionId;
+            return RedirectToAction("ViewAnswer",new {id = Id});
         }
 
         public ActionResult NoMeGusta(Guid Id)
@@ -97,7 +107,7 @@ namespace WebApplication1.Controllers
             var context = new StackoverflowContext();
             context.Answers.Find(Id).Votes--;
             context.SaveChanges();
-            return RedirectToAction("Index", "Answer");
+            return RedirectToAction("ViewAnswer", new { id = Id });
         }
     }
 

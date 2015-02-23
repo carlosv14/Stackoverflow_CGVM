@@ -26,12 +26,18 @@
             @Html.DisplayFor(model => model.Description)
         </dd>
 
+        <dt>
+            @Html.DisplayNameFor(model => model.Votes)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Votes)
+        </dd>
     </dl>
 </div>
 <p>
     @Html.ActionLink("Like", "MeGusta", new {id = Model.Id},null) |
-    @Html.ActionLink("Unlike", "NoMeGusta", new { id = Model.Id },null)
-    
-    @Html.ActionLink("Back to List", "Index")
-    @Html.ActionLink("Answers", "Index", "Answer")
+    @Html.ActionLink("Unlike", "NoMeGusta", new { id = Model.Id },null)|
+    @Html.ActionLink("List of Answers", "Answer", new {id = Model.Id})|
+    @Html.ActionLink("Answer", "CreateAnswer", new { id = Model.Id })
 </p>
