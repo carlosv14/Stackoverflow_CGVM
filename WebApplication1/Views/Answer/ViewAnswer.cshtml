@@ -49,10 +49,18 @@
         <dd>
             @Html.DisplayFor(model => model.OwnerName)
         </dd>
+        <dd>
+            @Html.DisplayFor(model => model.isCorrect)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.isCorrect)
+        </dt>
 
     </dl>
 </div>
 <p>
     @Html.ActionLink("Like", "MeGusta", new { id = Model.Id }) |
-    @Html.ActionLink("Unlike", "NoMeGusta", new { id = Model.Id })
+    @Html.ActionLink("Unlike", "NoMeGusta", new {id = Model.Id})|
+    @Html.ActionLink("Marcar Como Correcta", "Correcta", new { id = Model.Id })
 </p>

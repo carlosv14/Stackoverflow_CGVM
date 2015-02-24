@@ -66,7 +66,7 @@ namespace WebApplication1.Controllers
             return RedirectToAction("Index", "Question");
 
         }
-          
+        [Authorize]  
         public ActionResult Profile(ProfileModel modelo, Guid Id)
         {
             var context =  new StackoverflowContext();
@@ -76,6 +76,7 @@ namespace WebApplication1.Controllers
             return View(modelo);
         }
 
+         [Authorize] 
         public ActionResult CurrentProfile()
         {
             ProfileModel

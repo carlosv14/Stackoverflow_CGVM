@@ -29,9 +29,12 @@
         <th>
             @Html.DisplayNameFor(model => model.AnswerId)
         </th>*@
+        <th>Best</th>
         <th>
             @Html.DisplayNameFor(model => model.name)
         </th>
+       
+
         <th>
     </tr>
 
@@ -58,6 +61,7 @@
         @*<td>
             @Html.DisplayFor(modelItem => item.name)
         </td>*@
+        <th><font color="green">@Html.DisplayFor(modeli=>item.Best)</font></th>
         <td>
             @Html.ActionLink(item.name, "ViewAnswer", "Answer", new { id = item.AnswerId }, null)
         <td>

@@ -66,6 +66,7 @@ namespace WebApplication1.Controllers
                     newQuestion.Owner = context.Accounts.FirstOrDefault(x => x.Id == ownerId);
                     newQuestion.ModificationDate = DateTime.Now;
                     newQuestion.CreationDate = DateTime.Now;
+                    newQuestion.correctAnswer = Guid.NewGuid();
                     context.Questions.Add(newQuestion);
                     context.SaveChanges();
                 }
@@ -103,10 +104,12 @@ namespace WebApplication1.Controllers
             return RedirectToAction("Detail", new { Id = Id });
         }
 
+        [AllowAnonymous]
         public ActionResult Answer(Guid Id)
         {
             return RedirectToAction("Index","Answer",new {questionId = Id});
         }
+          
         public ActionResult CreateAnswer(Guid Id)
         {
             return RedirectToAction("CreateAnswer", "Answer", new { questionId = Id });

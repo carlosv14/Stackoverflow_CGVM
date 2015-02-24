@@ -54,6 +54,10 @@
     <Compile Include="Migrations\201502230330413_addingQId.Designer.cs">
       <DependentUpon>201502230330413_addingQId.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201502232234205_Marcar.cs" />
+    <Compile Include="Migrations\201502232234205_Marcar.Designer.cs">
+      <DependentUpon>201502232234205_Marcar.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="StackoverflowContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -74,6 +78,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201502230330413_addingQId.resx">
       <DependentUpon>201502230330413_addingQId.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201502232234205_Marcar.resx">
+      <DependentUpon>201502232234205_Marcar.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -18,7 +18,7 @@ namespace Stackoverflow_CGVM.Domain.Entities
         public string Title { get; set; }
         public DateTime CreationDate { get; set; }
         public DateTime ModificationDate { get; set; }
-
+        public Guid correctAnswer { get; set; }
         public Question()
         {
 

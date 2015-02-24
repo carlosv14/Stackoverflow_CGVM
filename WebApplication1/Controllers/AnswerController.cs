@@ -14,7 +14,7 @@ using WebApplication1.Models;
 
 namespace WebApplication1.Controllers
 {
-    [Authorize]
+   [Authorize]
     public class AnswerController : Controller
     {
         private readonly IMappingEngine _mappingEngine;
@@ -22,9 +22,7 @@ namespace WebApplication1.Controllers
         {
             _mappingEngine = mappingEngine;
         }
-
-       
-        [AllowAnonymous]
+       [AllowAnonymous]
         public ActionResult Index(Guid questionId)
         {
             
@@ -33,30 +31,33 @@ namespace WebApplication1.Controllers
             int cont = 1;
             foreach (Answer a in context.Answers)
             {
+
                 if (a.QuestionId == questionId)
                 {
                     AnswerListModel answer = new AnswerListModel();
-                    answer.name = "Ref" + cont++;
+                    answer.name = "Respuesta" + cont++;
                     answer.Votes = a.Votes;
                     answer.CreationTime = a.CreationDate;
                     answer.OwnerName = a.Owner.Name;
                     answer.AnswerId = a.Id;
                     answer.QuestionId = a.QuestionId;
                     answer.OwnerId = a.Owner.Id;
+                    answer.Best = a.isCorrect;
                     models.Add(answer);
                 }
             }
+           
             
             return View(models);
         }
 
-        
+         
         public ActionResult CreateAnswer()
         {
             return View(new AnswerCreateModel());
         }
 
-
+        
         [HttpPost]
         public ActionResult CreateAnswer(AnswerCreateModel modelo,Guid questionId)
         {
@@ -74,6 +75,7 @@ namespace WebApplication1.Controllers
                     newAnswer.Owner = context.Accounts.FirstOrDefault(x => x.Id == ownerId);
                     newAnswer.Votes = 0;
                     newAnswer.QuestionId = questionId;
+                    newAnswer.isCorrect = false;
                     context.Answers.Add(newAnswer);
                     context.SaveChanges();
                 }
@@ -93,6 +95,7 @@ namespace WebApplication1.Controllers
             return View(model);
         }
 
+         
         public ActionResult MeGusta(Guid Id)
         {
             var context = new StackoverflowContext();
@@ -102,12 +105,37 @@ namespace WebApplication1.Controllers
             return RedirectToAction("ViewAnswer",new {id = Id});
         }
 
+       
         public ActionResult NoMeGusta(Guid Id)
         {
             var context = new StackoverflowContext();
             context.Answers.Find(Id).Votes--;
             context.SaveChanges();
             return RedirectToAction("ViewAnswer", new { id = Id });
+        }
+         
+        public ActionResult Correcta(Guid id)
+        {
+            Guid ownerId = Guid.NewGuid();
+             HttpCookie cookie = Request.Cookies[FormsAuthentication.FormsCookieName];
+            if (cookie != null)
+            {
+                FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(cookie.Value);
+                 ownerId = Guid.Parse(ticket.Name);
+            }
+            var context = new StackoverflowContext();
+            foreach (Answer a in context.Answers)
+            {
+                if(ownerId!= context.Questions.Find(context.Answers.Find(id).QuestionId).Owner.Id)
+                    return RedirectToAction("ViewAnswer", new { id = id });
+                if(a.QuestionId == context.Answers.Find(id).QuestionId)
+                    if (a.isCorrect)
+                        return RedirectToAction("ViewAnswer", new { id = id });
+            }
+            context.Answers.Find(id).isCorrect = true;
+            context.SaveChanges();
+            context.Questions.Find(context.Answers.Find(id).QuestionId).correctAnswer = id;
+            return RedirectToAction("ViewAnswer", new { id = id });
         }
     }
 
