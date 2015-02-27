@@ -4,48 +4,63 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<h2><u>Index</u></h2>
 
 <p>
     @Html.ActionLink("Create New", "CreateQuestion")
 </p>
 <table class="table">
-    <tr>
+    <tr style="background: darkcyan ">
         <th>
-            @Html.DisplayNameFor(model => model.Title)
+            <font style="color:ivory">
+                @Html.DisplayNameFor(model => model.Title)
+            </font>
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Votes)
+            <font style="color:ivory">
+                @Html.DisplayNameFor(model => model.Votes)
+            </font>
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.CreationTime)
+            <font style="color:ivory">
+                @Html.DisplayNameFor(model => model.CreationTime)
+            </font>
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.OwnerName)
+            <font style="color:ivory">
+                @Html.DisplayNameFor(model => model.OwnerName)
+            </font>
         </th>
         <th></th>
     </tr>
 
 @foreach (var item in Model) {
-    <tr>
+    <tr style="background: aliceblue">
         <td>
-            @Html.ActionLink(item.Title,"Detail",new{id= item.QuestionId},null)
-           @* @Html.DisplayFor(modelItem => item.Title)*@
+           
+            @Html.ActionLink(item.Title, "Detail", new {id = item.QuestionId}, null)
+            
+            @* @Html.DisplayFor(modelItem => item.Title)*@
         </td>
-        <td>
+        <td class=" text-success">
+            <b>
             @Html.DisplayFor(modelItem => item.Votes)
+            </b>
         </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CreationTime)
+        <td class =" text-success">
+            <b>
+                @Html.DisplayFor(modelItem => item.CreationTime)      
+            </b>
+          
         </td>
-        <td>
-            @Html.ActionLink(item.OwnerName,"Profile", "Account", new {id = item.OwnerId},null)
+        <td class=" text-success">
+            @Html.ActionLink(item.OwnerName, "Profile", "Account", new { id = item.OwnerId }, null)
             @*@Html.DisplayFor(modelItem => item.OwnerName)*@
         </td>
-        <td>
+        @*<td>
             @Html.ActionLink("Edit", "Edit", new { id = item.QuestionId}) |
             @Html.ActionLink("Delete", "Delete", new {id = item.QuestionId })
-        </td>
+        </td>*@
     </tr>
 }
 

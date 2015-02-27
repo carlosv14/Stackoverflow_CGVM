@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data.Entity;
 using System.Linq;
 using System.Text;
@@ -10,7 +11,7 @@ namespace Stackoverflow_CGVM.Data
 {
     public class StackoverflowContext:DbContext
     {
-        public StackoverflowContext() : base("Steckoverflow")
+        public StackoverflowContext() : base(ConnectionString.get())
         {
             
         }
@@ -19,5 +20,14 @@ namespace Stackoverflow_CGVM.Data
         public DbSet<Question> Questions { get; set; }
         
         
+    }
+
+    public static class ConnectionString
+    {
+        public static string get()
+        {
+            var Environment = ConfigurationManager.AppSettings["Environment"];
+            return string.Format("name={0}", Environment);
+        } 
     }
 }

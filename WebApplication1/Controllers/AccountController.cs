@@ -29,6 +29,8 @@ namespace WebApplication1.Controllers
         {
             if (ModelState.IsValid)
             {
+                if(modelo.Passw !=modelo.ConfirmPassword)
+                    return RedirectToAction("Login"); 
                 var newAccount = _mappingEngine.Map<AccountRegisterModel, Account>(modelo);
                
                 var context = new StackoverflowContext();
