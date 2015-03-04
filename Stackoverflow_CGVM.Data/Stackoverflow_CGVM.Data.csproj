@@ -47,6 +47,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IRepository.cs" />
+    <Compile Include="IUnitOfWork.cs" />
     <Compile Include="Migrations\201502222115512_InitialCreate.cs" />
     <Compile Include="Migrations\201502222115512_InitialCreate.Designer.cs">
       <DependentUpon>201502222115512_InitialCreate.cs</DependentUpon>
@@ -60,6 +62,7 @@
       <DependentUpon>201502232234205_Marcar.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Repository.cs" />
     <Compile Include="StackoverflowContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
