@@ -17,6 +17,7 @@ namespace WebApplication1.Controllers
     [Authorize]
     public class QuestionController : Controller
     {
+        
         private readonly IMappingEngine _mappingEngine;
         public QuestionController(IMappingEngine mappingEngine)
         {
@@ -30,9 +31,10 @@ namespace WebApplication1.Controllers
             IList<QuestionListModel> models = new ListStack<QuestionListModel>();
             var context = new StackoverflowContext();
             
-            foreach (Question q in context.Questions)
+            foreach (Question q in context.Questions.Include("Owner"))
             {
                 QuestionListModel question1 = new QuestionListModel();
+                
                 question1.Title = q.Title;
                 question1.Votes = q.Votes;
                 question1.CreationTime = q.CreationDate;
