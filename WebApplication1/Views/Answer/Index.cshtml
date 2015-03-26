@@ -1,76 +1,60 @@
 ﻿@model IEnumerable<WebApplication1.Models.AnswerListModel>
 
-@{
-    ViewBag.Title = "Index";
-}
-
-<h2>Index</h2>
 
 <p>
-  @Html.ActionLink("Back", "Index","Question")
+    @Html.ActionLink("Back", "Index", "Question")
 </p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Votes)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CreationTime)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.OwnerName)
-        </th>
-        @*<th>
-            @Html.DisplayNameFor(model => model.OwnerId)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.QuestionId)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.AnswerId)
-        </th>*@
-        <th>Best</th>
-        <th>
-            @Html.DisplayNameFor(model => model.name)
-        </th>
-       
+<div class="container">
+    <div class="row">
+        <div class="well">
+            <h1 class="text-center">Answers</h1>
+            <div class="list-group">
 
-        <th>
-    </tr>
+                @foreach (var item in Model)
+                {
+                    <div class="list-group-item">
+                        <div class="row">
+                            <div class="media col-md-3">
+                                <figure class="pull-left">
+                                    <img class="media-object img-rounded img-responsive" src="https://www.academics.com/image-upload/30825_0_standard.jpg" style="height: 100px;width: 100px">
+                                </figure>
+                            </div>
+                            <div class="col-md-6">
+                                <h4 class="list-group-item-heading"> @Html.DisplayFor(model => item.name)</h4>
+                                <p class="list-group-item-text">
+                                    @Html.DisplayFor(model => item.Description)
+                                </p>
+                            </div>
+                            <div class="col-md-3 text-center">
+                                <h2>
+                                    @Html.DisplayFor(model => item.Votes) <small> votes </small>
+                                </h2>
+                                <a href="@Url.Action("MeGusta","Answer", new { id = item.AnswerId })">
+                                    <button type="button" class="btn btn-success">ThumbsUp! </button>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Votes)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CreationTime)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.OwnerName)
-        </td>
-        @*<td>
-            @Html.DisplayFor(modelItem => item.OwnerId)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.QuestionId)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.AnswerId)
-        </td>*@
-        @*<td>
-            @Html.DisplayFor(modelItem => item.name)
-        </td>*@
-        <th><font color="green">@Html.DisplayFor(modeli=>item.Best)</font></th>
-        <td>
-            @Html.ActionLink(item.name, "ViewAnswer", "Answer", new { id = item.AnswerId }, null)
-        <td>
-           
-            @*@Html.ActionLink("Edit", "Edit", new {/* id=item.PrimaryKey */}) |
-            @Html.ActionLink("Details", "Details", new {/* id=item.PrimaryKey */}) |
-            @Html.ActionLink("Delete", "Delete", new {/* id=item.PrimaryKey */})*@
-        </td>
-    </tr>
-}
+                                </a>
+                                <a href="@Url.Action("NoMeGusta","Answer", new { id = item.AnswerId })">
 
-</table>
+                                    <button type="button" class="btn btn-danger">ThumbsDown! </button>
+
+                                </a>
+                                @*<div class="stars">
+                                        <span class="glyphicon glyphicon-star"></span>
+                                        <span class="glyphicon glyphicon-star"></span>
+                                        <span class="glyphicon glyphicon-star"></span>
+                                        <span class="glyphicon glyphicon-star"></span>
+                                        <span class="glyphicon glyphicon-star-empty"></span>
+                                    </div>
+                                    <p>
+                                        Average 3.9 <small> / </small> 5
+                                    </p>*@
+                            </div>
+                        </div>
+
+                    </div>
+                }
+
+            </div>
+        </div>
+    </div>
+</div>

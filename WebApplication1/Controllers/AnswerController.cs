@@ -29,7 +29,7 @@ namespace WebApplication1.Controllers
             IList<AnswerListModel> models = new ListStack<AnswerListModel>();
             var context = new StackoverflowContext();
             int cont = 1;
-            foreach (Answer a in context.Answers)
+            foreach (Answer a in context.Answers.Include("Owner"))
             {
 
                 if (a.QuestionId == questionId)
@@ -43,12 +43,13 @@ namespace WebApplication1.Controllers
                     answer.QuestionId = a.QuestionId;
                     answer.OwnerId = a.Owner.Id;
                     answer.Best = a.isCorrect;
+                    answer.Description = a.Description;
                     models.Add(answer);
                 }
             }
            
             
-            return View(models);
+            return PartialView(models);
         }
 
          
@@ -101,8 +102,8 @@ namespace WebApplication1.Controllers
             var context = new StackoverflowContext();
             context.Answers.Find(Id).Votes ++;
             context.SaveChanges();
-            Guid qId = context.Answers.Find(Id).QuestionId;
-            return RedirectToAction("ViewAnswer",new {id = Id});
+            Guid questionId = context.Answers.Find(Id).QuestionId;
+            return RedirectToAction("Detail","Question", new {Id = questionId});
         }
 
        
@@ -111,7 +112,8 @@ namespace WebApplication1.Controllers
             var context = new StackoverflowContext();
             context.Answers.Find(Id).Votes--;
             context.SaveChanges();
-            return RedirectToAction("ViewAnswer", new { id = Id });
+            Guid questionId = context.Answers.Find(Id).QuestionId;
+            return RedirectToAction("Detail", "Question", new { Id = questionId });
         }
          
         public ActionResult Correcta(Guid id)

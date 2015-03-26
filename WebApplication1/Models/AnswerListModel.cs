@@ -15,6 +15,8 @@ namespace WebApplication1.Models
         public Guid AnswerId { get; set; }
         public bool Best { get; set; }
         public string name { get; set; }
+
+        public string Description { get; set; }
        
     }
 }

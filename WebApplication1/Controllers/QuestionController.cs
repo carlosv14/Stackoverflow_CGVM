@@ -25,6 +25,7 @@ namespace WebApplication1.Controllers
         }
         //
         // GET: /Question/
+       
         [AllowAnonymous]
         public ActionResult Index()
         {
@@ -39,6 +40,7 @@ namespace WebApplication1.Controllers
                 question1.Votes = q.Votes;
                 question1.CreationTime = q.CreationDate;
                 question1.OwnerName = q.Owner.Name;
+                question1.Description = q.Description;
                 question1.QuestionId = q.Id;
                 question1.OwnerId = q.Owner.Id;
                 models.Add(question1);
@@ -51,7 +53,8 @@ namespace WebApplication1.Controllers
         {
             return View(new CreateQuestionModel());
         }
-                [HttpPost]
+        
+        [HttpPost]
         public ActionResult CreateQuestion(CreateQuestionModel modelo)
         {
 

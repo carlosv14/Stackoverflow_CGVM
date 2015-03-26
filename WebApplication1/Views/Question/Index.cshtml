@@ -1,67 +1,45 @@
 ﻿@model IEnumerable<WebApplication1.Models.QuestionListModel>
+<div class="container">
+    <div class="row">
+            <h1 class="text-center" style="color: green">Questions</h1>
+            <p>
+                @Html.ActionLink("Create New", "CreateQuestion")
+            </p>
+            @foreach (var item in Model)
+            {
+                <div class="container">
+                    <div class="well">
+                        <div class="media">
+                            <a class="pull-left" href="#">
+                                <img class="media-object" src="http://2.bp.blogspot.com/-aZdMZYC0v_g/ULIqSGSsRwI/AAAAAAAArCw/MmBC7EdixSY/s1600/question+person+(8).jpg" style="height: 130px; width: 100px">
+                            </a>
+                            <div class="media-body">
+                                <h4 class="media-heading">@Html.DisplayFor(model => item.Title)</h4>
+                                <p class="text-right">By @Html.ActionLink(item.OwnerName, "Profile", "Account", new {id = item.OwnerId}, null)</p>
+                                <p>
+                                    @Html.DisplayFor(model => item.Description)
+                                </p>
+                                <ul class="list-inline list-unstyled">
+                                    <li><span><i class="glyphicon glyphicon-calendar"></i> @Html.DisplayFor(model => item.CreationTime) </span></li>
+                                    <li>|</li>
+                                    <span><i class="glyphicon glyphicon-comment"></i>  @Html.ActionLink("Answers", "Detail", new {id = item.QuestionId}, null)</span>
+                                    <li>|</li>
+                                    <li>
+                                        <span class="glyphicon glyphicon-star"></span>
+                                        Votes: @Html.DisplayFor(model => item.Votes)
 
-@{
-    ViewBag.Title = "Index";
-}
+                                        @*<span class="glyphicon glyphicon-star"></span>
+                                            <span class="glyphicon glyphicon-star"></span>
+                                            <span class="glyphicon glyphicon-star"></span>
+                                            <span class="glyphicon glyphicon-star-empty"></span>*@
+                                    </li>
+                                    <li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-<h2><u>Index</u></h2>
-
-<p>
-    @Html.ActionLink("Create New", "CreateQuestion")
-</p>
-<table class="table">
-    <tr style="background: darkcyan ">
-        <th>
-            <font style="color:ivory">
-                @Html.DisplayNameFor(model => model.Title)
-            </font>
-        </th>
-        <th>
-            <font style="color:ivory">
-                @Html.DisplayNameFor(model => model.Votes)
-            </font>
-        </th>
-        <th>
-            <font style="color:ivory">
-                @Html.DisplayNameFor(model => model.CreationTime)
-            </font>
-        </th>
-        <th>
-            <font style="color:ivory">
-                @Html.DisplayNameFor(model => model.OwnerName)
-            </font>
-        </th>
-        <th></th>
-    </tr>
-
-@foreach (var item in Model) {
-    <tr style="background: aliceblue">
-        <td>
-           
-            @Html.ActionLink(item.Title, "Detail", new {id = item.QuestionId}, null)
-            
-            @* @Html.DisplayFor(modelItem => item.Title)*@
-        </td>
-        <td class=" text-success">
-            <b>
-            @Html.DisplayFor(modelItem => item.Votes)
-            </b>
-        </td>
-        <td class =" text-success">
-            <b>
-                @Html.DisplayFor(modelItem => item.CreationTime)      
-            </b>
-          
-        </td>
-        <td class=" text-success">
-            @Html.ActionLink(item.OwnerName, "Profile", "Account", new { id = item.OwnerId }, null)
-            @*@Html.DisplayFor(modelItem => item.OwnerName)*@
-        </td>
-        @*<td>
-            @Html.ActionLink("Edit", "Edit", new { id = item.QuestionId}) |
-            @Html.ActionLink("Delete", "Delete", new {id = item.QuestionId })
-        </td>*@
-    </tr>
-}
-
-</table>
+            }
+        </div>
+    </div>

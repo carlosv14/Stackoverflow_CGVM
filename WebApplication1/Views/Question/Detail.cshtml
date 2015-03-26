@@ -8,7 +8,7 @@
 
 <div>
     <h4>DetailModel</h4>
-	<hr />
+    <hr />
     <dl class="dl-horizontal">
         <dt>
             @Html.DisplayNameFor(model => model.Title)
@@ -34,10 +34,21 @@
             @Html.DisplayFor(model => model.Votes)
         </dd>
     </dl>
+    
 </div>
 <p>
-    @Html.ActionLink("Like", "MeGusta", new {id = Model.Id},null) |
-    @Html.ActionLink("Unlike", "NoMeGusta", new { id = Model.Id },null)|
+    <a href="@Url.Action("MeGusta","Question", new {id = Model.Id}, null)">
+        <img src="http://cultureslurp.com/wp-content/uploads/2011/09/Facebook-Like-Button.jpg" style="height: 32px; width: 50px" />
+    </a>
+
+    @*@Html.ActionLink("Like", "MeGusta", new { id = Model.Id }, null) |*@
+    <a href="@Url.Action("NoMeGusta", "Question", new {id = Model.Id}, null)">
+        <img src="http://i.imgur.com/fsnUQ7b.png" style="height: 32px; width: 50px"/>
+    </a>
+    @*@Html.ActionLink("Unlike", "NoMeGusta", new { id = Model.Id }, null)|*@
     @Html.ActionLink("List of Answers", "Answer", new {id = Model.Id})|
-    @Html.ActionLink("Answer", "CreateAnswer", new { id = Model.Id })
+    @Html.ActionLink("Answer", "CreateAnswer", new {id = Model.Id})
 </p>
+<div class="row">
+    @{Html.RenderAction("Index","Answer", new { questionId = Model.Id });}
+</div>

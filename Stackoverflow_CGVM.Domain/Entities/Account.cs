@@ -6,6 +6,9 @@ namespace Stackoverflow_CGVM.Domain.Entities
     {
         public Guid Id { get; private set; }
         public string Name { get; set; }
+        public string LastName{ get; set; }
+
+        public bool confirmed { get; set; }
         public string Email { get; set; }
         public string Passw { get; set; }
 

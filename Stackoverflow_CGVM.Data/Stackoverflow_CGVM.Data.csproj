@@ -47,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Encriptar.cs" />
     <Compile Include="IRepository.cs" />
     <Compile Include="IUnitOfWork.cs" />
     <Compile Include="Migrations\201502222115512_InitialCreate.cs" />
@@ -60,6 +61,18 @@
     <Compile Include="Migrations\201502232234205_Marcar.cs" />
     <Compile Include="Migrations\201502232234205_Marcar.Designer.cs">
       <DependentUpon>201502232234205_Marcar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201503190447339_Apellido.cs" />
+    <Compile Include="Migrations\201503190447339_Apellido.Designer.cs">
+      <DependentUpon>201503190447339_Apellido.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201503190448593_AgregandoApellido.cs" />
+    <Compile Include="Migrations\201503190448593_AgregandoApellido.Designer.cs">
+      <DependentUpon>201503190448593_AgregandoApellido.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201503190537107_Confirmed.cs" />
+    <Compile Include="Migrations\201503190537107_Confirmed.Designer.cs">
+      <DependentUpon>201503190537107_Confirmed.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Repository.cs" />
@@ -86,6 +99,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201502232234205_Marcar.resx">
       <DependentUpon>201502232234205_Marcar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201503190447339_Apellido.resx">
+      <DependentUpon>201503190447339_Apellido.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201503190448593_AgregandoApellido.resx">
+      <DependentUpon>201503190448593_AgregandoApellido.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201503190537107_Confirmed.resx">
+      <DependentUpon>201503190537107_Confirmed.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
