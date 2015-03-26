@@ -171,6 +171,7 @@
     <Compile Include="Models\AnswerCreateModel.cs" />
     <Compile Include="Models\AnswerListModel.cs" />
     <Compile Include="Models\AnswerModel.cs" />
+    <Compile Include="Models\CaptchaResponse.cs" />
     <Compile Include="Models\CreateQuestionModel.cs" />
     <Compile Include="Models\DetailModel.cs" />
     <Compile Include="Models\PasswordRecoveryModel.cs" />
