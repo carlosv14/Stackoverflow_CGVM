@@ -42,32 +42,31 @@
                         <input id="login-password" type="password" class="form-control" name="password" placeholder="password">
                     </div>
 
-
-
-                    <div class="g-recaptcha" data-sitekey="6LfdFAQTAAAAALtluTfTHOVbgONNiA8PWFPXaBLI"></div>
-
-                    <div style="margin-top: 10px" class="form-group">
-                        <!-- Button -->
-
-                        <div class="col-sm-12 controls">
-                            <input type="submit" value="Login" class="btn btn-success"/>
-
-                        </div>
+                   <div class="@(ViewBag.Captcha ? "visible" : "hidden")">
+                        <div class="g-recaptcha" data-sitekey="6LfdFAQTAAAAALtluTfTHOVbgONNiA8PWFPXaBLI"></div>
                     </div>
+                        <div style="margin-top: 10px" class="form-group">
+                            <!-- Button -->
 
+                            <div class="col-sm-12 controls">
+                                <input type="submit" value="Login" class="btn btn-success" />
 
-                    <div class="form-group">
-                        <div class="col-md-12 control">
-                            <div style="border-top: 1px solid #888; padding-top: 15px; font-size: 85%">
-                                Don't have an account!
-                                <a href="#" onclick=" $('#loginbox').hide(); $('#signupbox').show() ">
-                                    Sign Up Here
-                                </a>
                             </div>
                         </div>
-                    </div>
 
-                </form>
+
+                        <div class="form-group">
+                            <div class="col-md-12 control">
+                                <div style="border-top: 1px solid #888; padding-top: 15px; font-size: 85%">
+                                    Don't have an account!
+                                    <a href="#" onclick=" $('#loginbox').hide(); $('#signupbox').show() ">
+                                        Sign Up Here
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+</form>
 
             </div>
         </div>

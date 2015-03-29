@@ -22,7 +22,7 @@ namespace WebApplication1.Controllers
         private readonly IMappingEngine _mappingEngine;
         private UnitOfWork _unitOfWork = new UnitOfWork();
         private Encriptar _encrypt = new Encriptar();
-
+        
         public AccountController(IMappingEngine mappingEngine)
         {
             _mappingEngine = mappingEngine;
@@ -79,20 +79,78 @@ namespace WebApplication1.Controllers
 
         public ActionResult Login()
         {
+            if (HttpContext.Session != null && HttpContext.Session["Attempts"] == null)
+            {
+                HttpContext.Session["Attempts"] = 0;
+                HttpContext.Session["CaptchaActive"] = false;
+            }
 
+            @ViewBag.Captcha = false;
+            
             return View(new LoginModel());
         }
 
         [HttpPost]
         public ActionResult Login(string username, string password)
         {
+            ViewBag.Message = "Valid";
+            @ViewBag.Captcha = false;
+            if ((bool)HttpContext.Session["CaptchaActive"])
+            {
+                var response = Request["g-recaptcha-response"];
+                //secret that was generated in key value pair
+                const string secret = "6LfdFAQTAAAAAKyvL-t0xljfIHEOMVlQ_aKtoKe6";
+
+                var client = new WebClient();
+                var reply =
+                    client.DownloadString(
+                        string.Format("https://www.google.com/recaptcha/api/siteverify?secret={0}&response={1}",
+                            secret, response));
+
+                var captchaResponse = JsonConvert.DeserializeObject<CaptchaResponse>(reply);
+
+                //when response is false check for the error message 
+                if (!captchaResponse.Success)
+                {
+                    if (captchaResponse.ErrorCodes.Count <= 0) return View();
+
+                    var error = captchaResponse.ErrorCodes[0].ToLower();
+                    switch (error)
+                    {
+                        case ("missing-input-secret"):
+                            ViewBag.Message = "The secret parameter is missing.";
+                            break;
+                        case ("invalid-input-secret"):
+                            ViewBag.Message = "The secret parameter is invalid or malformed.";
+                            break;
+
+                        case ("missing-input-response"):
+                            ViewBag.Message = "The response parameter is missing.";
+                            break;
+                        case ("invalid-input-response"):
+                            ViewBag.Message = "The response parameter is invalid or malformed.";
+                            break;
+
+                        default:
+                            ViewBag.Message = "Error occured. Please try again";
+                            break;
+                    }
+                    
+                }
+                else
+                {
+                    ViewBag.Message = "Valid";
+                    HttpContext.Session["Attempts"] = 0;
+                    HttpContext.Session["CaptchaActive"] = false;
+                }
+            }
             LoginModel model = new LoginModel();
             model.Email = username;
             model.Passw = _encrypt.EncryptKey(password);
             var Account = new Account();
             IEnumerable<Account> list =
                 _unitOfWork.AccountRepository.Get(x => x.Email == model.Email && x.Passw == model.Passw);
-            if (list.Any())
+            if (list.Any() && ViewBag.Message == "Valid")
                 Account = list.First();
             else
                 Account = null;
@@ -104,58 +162,27 @@ namespace WebApplication1.Controllers
                     return View(model);
                 }
                 FormsAuthentication.SetAuthCookie(Account.Id.ToString(), false);
-             var response = Request["g-recaptcha-response"];
-            //secret that was generated in key value pair
-            const string secret = "6LfdFAQTAAAAAKyvL-t0xljfIHEOMVlQ_aKtoKe6";
-
-            var client = new WebClient();
-            var reply =
-                client.DownloadString(
-                    string.Format("https://www.google.com/recaptcha/api/siteverify?secret={0}&response={1}", secret, response));
-
-            var captchaResponse = JsonConvert.DeserializeObject<CaptchaResponse>(reply);
-
-            //when response is false check for the error message 
-            if (!captchaResponse.Success)
-            {
-                if (captchaResponse.ErrorCodes.Count <= 0) return View();
-
-                var error = captchaResponse.ErrorCodes[0].ToLower();
-                switch (error)
-                {
-                    case ("missing-input-secret"):
-                        ViewBag.Message = "The secret parameter is missing.";
-                        break;
-                    case ("invalid-input-secret"):
-                        ViewBag.Message = "The secret parameter is invalid or malformed.";
-                        break;
-
-                    case ("missing-input-response"):
-                        ViewBag.Message = "The response parameter is missing.";
-                        break;
-                    case ("invalid-input-response"):
-                        ViewBag.Message = "The response parameter is invalid or malformed.";
-                        break;
-
-                    default:
-                        ViewBag.Message = "Error occured. Please try again";
-                        break;
-                }
-            }
-            else
-            {
-                ViewBag.Message = "Valid";
-            }
-
+               
                 return RedirectToAction("Index", "Question");
-            }
+               }
 
             ViewBag.Message = "El Correo electronico o contraseña incorrecta";
             IEnumerable<Account> list2 = _unitOfWork.AccountRepository.Get(x => x.Email == model.Email);
             if (list2.Any())
+            {
+                HttpContext.Session["Attempts"] = (int)HttpContext.Session["Attempts"] + 1;
+                if ((int)HttpContext.Session["Attempts"] > 2)
+                {
+                    @ViewBag.Captcha = true;
+                    HttpContext.Session["Attempts"] = 0;
+                    HttpContext.Session["CaptchaActive"] = true;
+                }            
+
+                
                 PasswordRecovering.SendEmail(model.Email,
                     "Alguien intento entrar con su cuenta a stackoverflow con información incorrecta", "Alerta");
 
+            }
             return View(model);
         }
 
