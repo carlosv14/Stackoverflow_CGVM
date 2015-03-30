@@ -8,6 +8,7 @@ using System.Web.Security;
 using Antlr.Runtime.Misc;
 using AutoMapper;
 using Stackoverflow_CGVM.Data;
+using Stackoverflow_CGVM.Data.Migrations;
 using Stackoverflow_CGVM.Domain.Entities;
 using WebApplication1.Models;
 
@@ -31,6 +32,7 @@ namespace WebApplication1.Controllers
             int cont = 1;
             foreach (Answer a in context.Answers.Include("Owner"))
             {
+                var md = new MarkdownDeep.Markdown();
 
                 if (a.QuestionId == questionId)
                 {
@@ -43,7 +45,7 @@ namespace WebApplication1.Controllers
                     answer.QuestionId = a.QuestionId;
                     answer.OwnerId = a.Owner.Id;
                     answer.Best = a.isCorrect;
-                    answer.Description = a.Description;
+                    answer.Description = md.Transform(a.AnswerDescription);
                     models.Add(answer);
                 }
             }
@@ -55,12 +57,12 @@ namespace WebApplication1.Controllers
          
         public ActionResult CreateAnswer()
         {
-            return View(new AnswerCreateModel());
+           return PartialView(new AnswerCreateModel());
         }
 
         
         [HttpPost]
-        public ActionResult CreateAnswer(AnswerCreateModel modelo,Guid questionId)
+        public ActionResult CreateAnswer(AnswerCreateModel modelo, Guid questionId)
         {
             if (ModelState.IsValid)
             {
@@ -80,11 +82,11 @@ namespace WebApplication1.Controllers
                     context.Answers.Add(newAnswer);
                     context.SaveChanges();
                 }
-                return RedirectToAction("Index","Question");
+                return RedirectToAction("Detail", "Question", new { ID = questionId });
 
             }
-           
-            return View(modelo);
+
+            return PartialView(modelo);
         }
 
         [AllowAnonymous]
@@ -100,9 +102,29 @@ namespace WebApplication1.Controllers
         public ActionResult MeGusta(Guid Id)
         {
             var context = new StackoverflowContext();
+            var voto= new Vote();
+            Guid questionId = context.Answers.Find(Id).QuestionId;
+             HttpCookie cookie = Request.Cookies[FormsAuthentication.FormsCookieName];
+            if (cookie != null)
+            {
+                FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(cookie.Value);
+                Guid ownerID = Guid.Parse(ticket.Name);
+               
+                foreach (var vote in context.Votes)
+                {
+                    if (ownerID == vote.OwnerID && Id == vote.QorA_ID) {
+                        ViewBag.Message = "Ya voto sobre esta respuesta";
+                        return RedirectToAction("Detail","Question", new{Id = questionId});
+                       
+                    }
+                }
+
+                voto.OwnerID = ownerID;
+                voto.QorA_ID = Id;
+                context.Votes.Add(voto);
+            }
             context.Answers.Find(Id).Votes ++;
             context.SaveChanges();
-            Guid questionId = context.Answers.Find(Id).QuestionId;
             return RedirectToAction("Detail","Question", new {Id = questionId});
         }
 
@@ -110,9 +132,27 @@ namespace WebApplication1.Controllers
         public ActionResult NoMeGusta(Guid Id)
         {
             var context = new StackoverflowContext();
+            var voto = new Vote();
+            Guid questionId = context.Answers.Find(Id).QuestionId;
+            HttpCookie cookie = Request.Cookies[FormsAuthentication.FormsCookieName];
+            if (cookie != null)
+            {
+                FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(cookie.Value);
+                Guid ownerID = Guid.Parse(ticket.Name);
+                foreach (var vote in context.Votes)
+                {
+                    if (ownerID == vote.OwnerID && Id == vote.QorA_ID) {
+                        ViewBag.Message = "Ya voto sobre esta respuesta";
+                        return RedirectToAction("Detail", "Question", new { Id = questionId });
+                       
+                    }
+                 }
+                voto.OwnerID = ownerID;
+                voto.QorA_ID = Id;
+                context.Votes.Add(voto);
+            }
             context.Answers.Find(Id).Votes--;
             context.SaveChanges();
-            Guid questionId = context.Answers.Find(Id).QuestionId;
             return RedirectToAction("Detail", "Question", new { Id = questionId });
         }
          

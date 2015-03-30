@@ -74,6 +74,22 @@
     <Compile Include="Migrations\201503190537107_Confirmed.Designer.cs">
       <DependentUpon>201503190537107_Confirmed.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201503300039231_Answermod.cs" />
+    <Compile Include="Migrations\201503300039231_Answermod.Designer.cs">
+      <DependentUpon>201503300039231_Answermod.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201503302102246_votes.cs" />
+    <Compile Include="Migrations\201503302102246_votes.Designer.cs">
+      <DependentUpon>201503302102246_votes.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201503302112302_correcting votes.cs" />
+    <Compile Include="Migrations\201503302112302_correcting votes.Designer.cs">
+      <DependentUpon>201503302112302_correcting votes.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201503302121412_Adjusting changes for votes.cs" />
+    <Compile Include="Migrations\201503302121412_Adjusting changes for votes.Designer.cs">
+      <DependentUpon>201503302121412_Adjusting changes for votes.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Repository.cs" />
     <Compile Include="StackoverflowContext.cs" />
@@ -108,6 +124,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201503190537107_Confirmed.resx">
       <DependentUpon>201503190537107_Confirmed.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201503300039231_Answermod.resx">
+      <DependentUpon>201503300039231_Answermod.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201503302102246_votes.resx">
+      <DependentUpon>201503302102246_votes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201503302112302_correcting votes.resx">
+      <DependentUpon>201503302112302_correcting votes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201503302121412_Adjusting changes for votes.resx">
+      <DependentUpon>201503302121412_Adjusting changes for votes.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

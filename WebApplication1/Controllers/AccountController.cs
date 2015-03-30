@@ -142,6 +142,7 @@ namespace WebApplication1.Controllers
                     }
                     else
                     {
+
                         ViewBag.Message = "Valid";
                         HttpContext.Session["Attempts"] = 0;
                         HttpContext.Session["CaptchaActive"] = false;

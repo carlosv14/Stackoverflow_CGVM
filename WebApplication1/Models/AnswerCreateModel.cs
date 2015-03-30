@@ -9,7 +9,7 @@ namespace WebApplication1.Models
     public class AnswerCreateModel
     {
         [Required]
-        public string Description { get; set; }
+        public string AnswerDescription { get; set; }
         public Guid QuestionId { get; set; }
     }
 }

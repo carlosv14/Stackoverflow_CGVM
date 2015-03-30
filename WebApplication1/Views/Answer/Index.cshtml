@@ -1,9 +1,10 @@
 ﻿@model IEnumerable<WebApplication1.Models.AnswerListModel>
+@if (ViewBag.Message != null)
+{
+    <div class="alert alert-danger" role="alert">@ViewBag.Message</div>
+}
 
 
-<p>
-    @Html.ActionLink("Back", "Index", "Question")
-</p>
 <div class="container">
     <div class="row">
         <div class="well">
@@ -22,7 +23,7 @@
                             <div class="col-md-6">
                                 <h4 class="list-group-item-heading"> @Html.DisplayFor(model => item.name)</h4>
                                 <p class="list-group-item-text">
-                                    @Html.DisplayFor(model => item.Description)
+                                    @Html.Raw(item.Description)
                                 </p>
                             </div>
                             <div class="col-md-3 text-center">
