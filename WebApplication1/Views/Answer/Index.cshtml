@@ -1,5 +1,8 @@
 ﻿@model IEnumerable<WebApplication1.Models.AnswerListModel>
-
+@if (ViewBag.Message != null)
+{
+    <div class="alert alert-danger" role="alert">@ViewBag.Message</div>
+}
 
 
 <div class="container">

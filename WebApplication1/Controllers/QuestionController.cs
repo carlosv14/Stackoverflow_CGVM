@@ -98,6 +98,26 @@ namespace WebApplication1.Controllers
         public ActionResult MeGusta(Guid Id)
         {
             var context = new StackoverflowContext();
+            var voto = new Vote();
+            HttpCookie cookie = Request.Cookies[FormsAuthentication.FormsCookieName];
+            if (cookie != null)
+            {
+                FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(cookie.Value);
+                Guid ownerID = Guid.Parse(ticket.Name);
+                foreach (var vote in context.Votes)
+                {
+                    if (ownerID == vote.OwnerID && Id == vote.QorA_ID) {
+                        ViewBag.Message = "Ya voto sobre esta pregunta";
+                        return RedirectToAction("Detail", "Question", new { Id = Id});
+
+                       
+                    }
+                }
+                voto.OwnerID = ownerID;
+                voto.QorA_ID = Id;
+                context.Votes.Add(voto);
+            }
+
             context.Questions.Find(Id).Votes++;
             context.SaveChanges();
             return RedirectToAction("Detail", new {Id = Id});
@@ -105,6 +125,28 @@ namespace WebApplication1.Controllers
         public ActionResult NoMeGusta(Guid Id)
         {
             var context = new StackoverflowContext();
+            var voto = new Vote();
+
+            HttpCookie cookie = Request.Cookies[FormsAuthentication.FormsCookieName];
+            if (cookie != null)
+            {
+                FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(cookie.Value);
+                Guid ownerID = Guid.Parse(ticket.Name);
+
+                foreach (var vote in context.Votes)
+                {
+                    if (ownerID == vote.OwnerID && Id == vote.QorA_ID)
+                    {
+                        ViewBag.Message = "Ya voto sobre esta pregunta";
+                        return RedirectToAction("Detail", "Question", new {Id = Id});
+                       
+                    }
+                }
+
+                voto.OwnerID = ownerID;
+                voto.QorA_ID = Id;
+                context.Votes.Add(voto);
+            }
             context.Questions.Find(Id).Votes--;
             context.SaveChanges();
             return RedirectToAction("Detail", new { Id = Id });
