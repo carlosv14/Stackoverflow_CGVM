@@ -13,7 +13,7 @@ namespace Stackoverflow_CGVM.Domain.Entities
 
 
         public int Votes { get; set; }
-        public string Description { get; set; }
+        public string AnswerDescription { get; set; }
         public virtual Account Owner { get; set; }
        
         public DateTime CreationDate { get; set; }

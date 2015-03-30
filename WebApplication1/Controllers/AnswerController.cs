@@ -43,7 +43,7 @@ namespace WebApplication1.Controllers
                     answer.QuestionId = a.QuestionId;
                     answer.OwnerId = a.Owner.Id;
                     answer.Best = a.isCorrect;
-                    answer.Description = a.Description;
+                    answer.Description = a.AnswerDescription;
                     models.Add(answer);
                 }
             }
@@ -55,12 +55,12 @@ namespace WebApplication1.Controllers
          
         public ActionResult CreateAnswer()
         {
-            return View(new AnswerCreateModel());
+           return PartialView(new AnswerCreateModel());
         }
 
         
         [HttpPost]
-        public ActionResult CreateAnswer(AnswerCreateModel modelo,Guid questionId)
+        public ActionResult CreateAnswer(AnswerCreateModel modelo, Guid questionId)
         {
             if (ModelState.IsValid)
             {
@@ -80,11 +80,11 @@ namespace WebApplication1.Controllers
                     context.Answers.Add(newAnswer);
                     context.SaveChanges();
                 }
-                return RedirectToAction("Index","Question");
+                return RedirectToAction("Detail", "Question", new { ID = questionId });
 
             }
-           
-            return View(modelo);
+
+            return PartialView(modelo);
         }
 
         [AllowAnonymous]

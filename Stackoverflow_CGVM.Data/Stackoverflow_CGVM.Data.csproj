@@ -74,6 +74,10 @@
     <Compile Include="Migrations\201503190537107_Confirmed.Designer.cs">
       <DependentUpon>201503190537107_Confirmed.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201503300039231_Answermod.cs" />
+    <Compile Include="Migrations\201503300039231_Answermod.Designer.cs">
+      <DependentUpon>201503300039231_Answermod.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Repository.cs" />
     <Compile Include="StackoverflowContext.cs" />
@@ -108,6 +112,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201503190537107_Confirmed.resx">
       <DependentUpon>201503190537107_Confirmed.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201503300039231_Answermod.resx">
+      <DependentUpon>201503300039231_Answermod.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

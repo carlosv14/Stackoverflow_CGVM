@@ -1,54 +1,65 @@
-﻿@model WebApplication1.Models.DetailModel
+﻿
+@model WebApplication1.Models.DetailModel
 
 @{
     ViewBag.Title = "Detail";
 }
+<div class="col-md-20 content">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+           @Html.DisplayFor(model => model.Title)
+        </div>
+        <div class="panel-body">
+            <p>
+                @Html.DisplayFor(model => model.Description)
+            </p>
+            <a href="@Url.Action("MeGusta", "Question", new {id = Model.Id})">
+                <button type="button" class="btn btn-success">ThumbsUp! </button>
 
-<h2>Detail</h2>
+            </a>
+            <a href="@Url.Action("NoMeGusta", "Question", new {id = Model.Id})">
 
-<div>
-    <h4>DetailModel</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
+                <button type="button" class="btn btn-danger">ThumbsDown! </button>
 
-        <dd>
-            @Html.DisplayFor(model => model.Title)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Votes)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Votes)
-        </dd>
-    </dl>
-    
+            </a>
+        </div>
+    </div>
 </div>
-<p>
-    <a href="@Url.Action("MeGusta","Question", new {id = Model.Id}, null)">
-        <img src="http://cultureslurp.com/wp-content/uploads/2011/09/Facebook-Like-Button.jpg" style="height: 32px; width: 50px" />
-    </a>
 
-    @*@Html.ActionLink("Like", "MeGusta", new { id = Model.Id }, null) |*@
-    <a href="@Url.Action("NoMeGusta", "Question", new {id = Model.Id}, null)">
-        <img src="http://i.imgur.com/fsnUQ7b.png" style="height: 32px; width: 50px"/>
-    </a>
-    @*@Html.ActionLink("Unlike", "NoMeGusta", new { id = Model.Id }, null)|*@
-    @Html.ActionLink("List of Answers", "Answer", new {id = Model.Id})|
-    @Html.ActionLink("Answer", "CreateAnswer", new {id = Model.Id})
-</p>
+
+
 <div class="row">
-    @{Html.RenderAction("Index","Answer", new { questionId = Model.Id });}
+    @{Html.RenderAction("Index", "Answer", new { questionId = Model.Id });}
+    @using (Html.BeginForm("CreateAnswer", "Answer", new {questionId = Model.Id}))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            <h4>AnswerCreateModel</h4>
+            <hr/>
+            @Html.ValidationSummary(true)
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.AnswerDescription, new {@class = "control-label col-md-2"})
+                <div class="col-md-10">
+                    @Html.TextAreaFor(model => model.AnswerDescription)
+                    @Html.ValidationMessageFor(model => model.AnswerDescription)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @*@Html.LabelFor(model => model.QuestionId, new { @class = "control-label col-md-2" })*@
+                <div class="col-md-10">
+                    @*@Html.EditorFor(model => model.QuestionId)
+                        @Html.ValidationMessageFor(model => model.QuestionId)*@
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Answer" class="btn btn-default"/>
+                </div>
+            </div>
+        </div>
+    }
 </div>

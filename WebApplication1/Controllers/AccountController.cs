@@ -102,46 +102,49 @@ namespace WebApplication1.Controllers
                 const string secret = "6LfdFAQTAAAAAKyvL-t0xljfIHEOMVlQ_aKtoKe6";
 
                 var client = new WebClient();
-                var reply =
-                    client.DownloadString(
-                        string.Format("https://www.google.com/recaptcha/api/siteverify?secret={0}&response={1}",
-                            secret, response));
-
-                var captchaResponse = JsonConvert.DeserializeObject<CaptchaResponse>(reply);
-
-                //when response is false check for the error message 
-                if (!captchaResponse.Success)
+                if (response != null)
                 {
-                    if (captchaResponse.ErrorCodes.Count <= 0) return View();
+                    var reply =
+                        client.DownloadString(
+                            string.Format("https://www.google.com/recaptcha/api/siteverify?secret={0}&response={1}",
+                                secret, response));
 
-                    var error = captchaResponse.ErrorCodes[0].ToLower();
-                    switch (error)
+                    var captchaResponse = JsonConvert.DeserializeObject<CaptchaResponse>(reply);
+
+                    //when response is false check for the error message 
+                    if (!captchaResponse.Success)
                     {
-                        case ("missing-input-secret"):
-                            ViewBag.Message = "The secret parameter is missing.";
-                            break;
-                        case ("invalid-input-secret"):
-                            ViewBag.Message = "The secret parameter is invalid or malformed.";
-                            break;
+                        if (captchaResponse.ErrorCodes.Count <= 0) return View();
 
-                        case ("missing-input-response"):
-                            ViewBag.Message = "The response parameter is missing.";
-                            break;
-                        case ("invalid-input-response"):
-                            ViewBag.Message = "The response parameter is invalid or malformed.";
-                            break;
+                        var error = captchaResponse.ErrorCodes[0].ToLower();
+                        switch (error)
+                        {
+                            case ("missing-input-secret"):
+                                ViewBag.Message = "The secret parameter is missing.";
+                                break;
+                            case ("invalid-input-secret"):
+                                ViewBag.Message = "The secret parameter is invalid or malformed.";
+                                break;
 
-                        default:
-                            ViewBag.Message = "Error occured. Please try again";
-                            break;
+                            case ("missing-input-response"):
+                                ViewBag.Message = "The response parameter is missing.";
+                                break;
+                            case ("invalid-input-response"):
+                                ViewBag.Message = "The response parameter is invalid or malformed.";
+                                break;
+
+                            default:
+                                ViewBag.Message = "Error occured. Please try again";
+                                break;
+                        }
+
                     }
-                    
-                }
-                else
-                {
-                    ViewBag.Message = "Valid";
-                    HttpContext.Session["Attempts"] = 0;
-                    HttpContext.Session["CaptchaActive"] = false;
+                    else
+                    {
+                        ViewBag.Message = "Valid";
+                        HttpContext.Session["Attempts"] = 0;
+                        HttpContext.Session["CaptchaActive"] = false;
+                    }
                 }
             }
             LoginModel model = new LoginModel();
