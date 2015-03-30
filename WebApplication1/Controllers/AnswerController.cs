@@ -31,6 +31,7 @@ namespace WebApplication1.Controllers
             int cont = 1;
             foreach (Answer a in context.Answers.Include("Owner"))
             {
+                var md = new MarkdownDeep.Markdown();
 
                 if (a.QuestionId == questionId)
                 {
@@ -43,7 +44,7 @@ namespace WebApplication1.Controllers
                     answer.QuestionId = a.QuestionId;
                     answer.OwnerId = a.Owner.Id;
                     answer.Best = a.isCorrect;
-                    answer.Description = a.AnswerDescription;
+                    answer.Description = md.Transform(a.AnswerDescription);
                     models.Add(answer);
                 }
             }

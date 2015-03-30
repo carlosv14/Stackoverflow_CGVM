@@ -17,8 +17,11 @@
                                 <h4 class="media-heading">@Html.DisplayFor(model => item.Title)</h4>
                                 <p class="text-right">By @Html.ActionLink(item.OwnerName, "Profile", "Account", new {id = item.OwnerId}, null)</p>
                                 <p>
-                                    @Html.DisplayFor(model => item.Description)
-                                </p>
+                                    @Html.DisplayFor(model => item.Description,new {@class = "mdd_editor"})
+                                    @Html.ActionLink("Read More..", "Detail", new { id = item.QuestionId }, null)
+                                   
+                                 </p>
+                    
                                 <ul class="list-inline list-unstyled">
                                     <li><span><i class="glyphicon glyphicon-calendar"></i> @Html.DisplayFor(model => item.CreationTime) </span></li>
                                     <li>|</li>

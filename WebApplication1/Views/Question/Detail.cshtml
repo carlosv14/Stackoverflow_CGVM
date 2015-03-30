@@ -1,6 +1,8 @@
 ﻿
 @model WebApplication1.Models.DetailModel
-
+<link rel="stylesheet" type="text/css" href="/Scripts/mdd_styles.css" />
+<script type="text/javascript" src="/Scripts/jQuery-2.1.3.min.js"></script>
+<script type="text/javascript" src="/Scripts/MarkdownDeepLib.min.js"></script>
 @{
     ViewBag.Title = "Detail";
 }
@@ -11,7 +13,7 @@
         </div>
         <div class="panel-body">
             <p>
-                @Html.DisplayFor(model => model.Description)
+                @Html.Raw(Model.Description)
             </p>
             <a href="@Url.Action("MeGusta", "Question", new {id = Model.Id})">
                 <button type="button" class="btn btn-success">ThumbsUp! </button>
@@ -34,19 +36,26 @@
     {
         @Html.AntiForgeryToken()
 
-        <div class="form-horizontal">
-            <h4>AnswerCreateModel</h4>
-            <hr/>
-            @Html.ValidationSummary(true)
+    <div class="form-horizontal">
+        <h4>AnswerCreateModel</h4>
+        <hr />
+        @Html.ValidationSummary(true)
 
-            <div class="form-group">
-                @Html.LabelFor(model => model.AnswerDescription, new {@class = "control-label col-md-2"})
-                <div class="col-md-10">
-                    @Html.TextAreaFor(model => model.AnswerDescription)
-                    @Html.ValidationMessageFor(model => model.AnswerDescription)
-                </div>
+
+        <div class="col-md-10">
+            <div style="word-wrap: break-word;">
+                <div class="mdd_toolbar" style="height: 30px;"></div>
+                @Html.TextAreaFor(model => model.AnswerDescription, new { @class = "mdd_editor", style = "width:800px; height:100px;" })
+                @Html.ValidationMessageFor(model => model.AnswerDescription)
             </div>
+        </div>
+    <script>
+        $("textarea.mdd_editor").MarkdownDeep({
+            help_location: "/Scripts/mdd_help.html",
+            ExtraMode: true, disableTabHandling: true
 
+        });
+    </script>
             <div class="form-group">
                 @*@Html.LabelFor(model => model.QuestionId, new { @class = "control-label col-md-2" })*@
                 <div class="col-md-10">
@@ -61,5 +70,6 @@
                 </div>
             </div>
         </div>
+         
     }
 </div>

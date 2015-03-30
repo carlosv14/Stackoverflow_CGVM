@@ -31,16 +31,16 @@ namespace WebApplication1.Controllers
         {
             IList<QuestionListModel> models = new ListStack<QuestionListModel>();
             var context = new StackoverflowContext();
-            
             foreach (Question q in context.Questions.Include("Owner"))
             {
                 QuestionListModel question1 = new QuestionListModel();
-                
                 question1.Title = q.Title;
                 question1.Votes = q.Votes;
                 question1.CreationTime = q.CreationDate;
                 question1.OwnerName = q.Owner.Name;
                 question1.Description = q.Description;
+                if (question1.Description.Length > 25)
+                   question1.Description= question1.Description.Remove(25);
                 question1.QuestionId = q.Id;
                 question1.OwnerId = q.Owner.Id;
                 models.Add(question1);
@@ -83,11 +83,12 @@ namespace WebApplication1.Controllers
          [AllowAnonymous]
         public ActionResult Detail(Guid Id )
         {
+            var md = new MarkdownDeep.Markdown();
              DetailModel model = new DetailModel();
              var question = _mappingEngine.Map<DetailModel, Question>(model);    
             var context = new StackoverflowContext();
             model.Title = context.Questions.FirstOrDefault(x => x.Id == Id).Title;
-            model.Description = context.Questions.FirstOrDefault(x => x.Id == Id).Description;
+            model.Description = md.Transform(context.Questions.FirstOrDefault(x => x.Id == Id).Description);
             model.Votes = context.Questions.FirstOrDefault(x => x.Id == Id).Votes;
             model.Id = context.Questions.FirstOrDefault(x => x.Id == Id).Id;
             return View(model);
