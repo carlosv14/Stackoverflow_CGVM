@@ -92,7 +92,8 @@ namespace WebApplication1.Controllers
             model.Description = md.Transform(context.Questions.FirstOrDefault(x => x.Id == Id).Description);
             model.Votes = context.Questions.FirstOrDefault(x => x.Id == Id).Votes;
             model.Id = context.Questions.FirstOrDefault(x => x.Id == Id).Id;
-            return View(model);
+             model.CreationDate = context.Questions.FirstOrDefault(x => x.Id == Id).CreationDate;
+             return View(model);
         }
 
         

@@ -164,8 +164,10 @@
     <Compile Include="Controllers\AnswerController.cs" />
     <Compile Include="Controllers\CostumeDataNotation\ContainNumber.cs" />
     <Compile Include="Controllers\CostumeDataNotation\LoginAttribute.cs" />
+    <Compile Include="Controllers\CostumeDataNotation\NewQuestionDescriptionValidation.cs" />
     <Compile Include="Controllers\CostumeDataNotation\NoRepeatingLetter.cs" />
     <Compile Include="Controllers\CostumeDataNotation\PasswordAttribute.cs" />
+    <Compile Include="Controllers\CostumeDataNotation\QuestionTittleValidation.cs" />
     <Compile Include="Controllers\CostumeDataNotation\VocalConfirmation.cs" />
     <Compile Include="Controllers\QuestionController.cs" />
     <Compile Include="Controllers\TestController.cs" />

@@ -14,6 +14,7 @@ namespace WebApplication1.Models
         public string Description { get; set; }
         public Guid Id { get;  set; }
         public int Votes { get; set; }
+        public DateTime CreationDate  { get; set; }
         [Required]
         public string AnswerDescription { get; set; }
     }

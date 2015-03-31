@@ -45,13 +45,20 @@ namespace WebApplication1.Controllers
                     answer.QuestionId = a.QuestionId;
                     answer.OwnerId = a.Owner.Id;
                     answer.Best = a.isCorrect;
+  
                     answer.Description = md.Transform(a.AnswerDescription);
                     models.Add(answer);
                 }
             }
-           
-            
-            return PartialView(models);
+            models = models.OrderByDescending(x => x.Votes).ThenByDescending(x => x.CreationTime).ToList();
+           AnswerListModel Canswer = models.FirstOrDefault(x => x.Best);
+           if (Canswer != null)
+           {
+               int index = models.IndexOf(Canswer);
+               models.Insert(0, Canswer);
+               models.RemoveAt(index);
+           }
+           return PartialView(models);
         }
 
          
@@ -64,6 +71,18 @@ namespace WebApplication1.Controllers
         [HttpPost]
         public ActionResult CreateAnswer(AnswerCreateModel modelo, Guid questionId)
         {
+            if (modelo.AnswerDescription != null)
+            {
+                System.Text.RegularExpressions.MatchCollection wordColl =
+                    System.Text.RegularExpressions.Regex.Matches(modelo.AnswerDescription, @"[\S]+");
+                System.Text.RegularExpressions.MatchCollection charColl =
+                    System.Text.RegularExpressions.Regex.Matches(modelo.AnswerDescription, @".");
+                if (wordColl.Count < 5 || charColl.Count < 50)
+                {
+                    TempData["AnswerBelow5word"] = "Answer must have at least 5 words and 50 characters";
+                    return RedirectToAction("Detail", "Question", new {ID = questionId});
+                }
+            }
             if (ModelState.IsValid)
             {
                 var context = new StackoverflowContext();

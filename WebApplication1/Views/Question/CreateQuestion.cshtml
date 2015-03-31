@@ -32,7 +32,8 @@
                 <div style="word-wrap: break-word;">
                     <div class="mdd_toolbar" style="height: 30px;"></div>
                     @Html.TextAreaFor(model => model.Description, new {@class = "mdd_editor", style = "width:800px; height:100px;"})
-                </div>
+                    @Html.ValidationMessageFor(model => model.Description)
+                 </div>
             </div>
         </div>
         <script>

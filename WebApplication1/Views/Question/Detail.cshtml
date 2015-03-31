@@ -15,6 +15,7 @@
         <div class="panel-body">
             <p>
                 @Html.Raw(Model.Description)
+                <div class="badge">@Html.DisplayFor(model => model.CreationDate)</div>
             </p>
             
                 <h2>
@@ -53,7 +54,10 @@
             <div style="word-wrap: break-word;">
                 <div class="mdd_toolbar" style="height: 30px;"></div>
                 @Html.TextAreaFor(model => model.AnswerDescription, new { @class = "mdd_editor", style = "width:800px; height:100px;" })
-                @Html.ValidationMessageFor(model => model.AnswerDescription)
+              @if (TempData["AnswerBelow5word"] != null)
+{
+    @Html.Label("*" + TempData["AnswerBelow5word"].ToString(), htmlAttributes: new { style = "color: red" })
+}
             </div>
         </div>
     <script>
