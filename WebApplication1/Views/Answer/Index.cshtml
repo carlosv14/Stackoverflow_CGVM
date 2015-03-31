@@ -29,15 +29,19 @@
                             <div class="col-md-3 text-center">
                                 <h2>
                                     @Html.DisplayFor(model => item.Votes) <small> votes </small>
+                                    @Html.DisplayFor(model => item.Best) 
                                 </h2>
                                 <a href="@Url.Action("MeGusta","Answer", new { id = item.AnswerId })">
                                     <button type="button" class="btn btn-success">ThumbsUp! </button>
 
                                 </a>
-                                <a href="@Url.Action("NoMeGusta","Answer", new { id = item.AnswerId })">
+                                <a href="@Url.Action("NoMeGusta", "Answer", new {id = item.AnswerId})">
 
                                     <button type="button" class="btn btn-danger">ThumbsDown! </button>
 
+                                </a>
+                                <a href="@Url.Action("Correcta","Answer", new { id = item.AnswerId })">
+                                    <button type="button" class="btn btn-info">Correct! </button>
                                 </a>
                                 @*<div class="stars">
                                         <span class="glyphicon glyphicon-star"></span>

@@ -90,6 +90,10 @@
     <Compile Include="Migrations\201503302121412_Adjusting changes for votes.Designer.cs">
       <DependentUpon>201503302121412_Adjusting changes for votes.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201503302359315_IsCorrect modifications.cs" />
+    <Compile Include="Migrations\201503302359315_IsCorrect modifications.Designer.cs">
+      <DependentUpon>201503302359315_IsCorrect modifications.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Repository.cs" />
     <Compile Include="StackoverflowContext.cs" />
@@ -136,6 +140,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201503302121412_Adjusting changes for votes.resx">
       <DependentUpon>201503302121412_Adjusting changes for votes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201503302359315_IsCorrect modifications.resx">
+      <DependentUpon>201503302359315_IsCorrect modifications.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

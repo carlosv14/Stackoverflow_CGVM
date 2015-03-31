@@ -71,6 +71,7 @@ namespace WebApplication1.Controllers
                     newQuestion.Owner = context.Accounts.FirstOrDefault(x => x.Id == ownerId);
                     newQuestion.ModificationDate = DateTime.Now;
                     newQuestion.CreationDate = DateTime.Now;
+                    newQuestion.hasCorrectAnswer = false;
                     newQuestion.correctAnswer = Guid.NewGuid();
                     context.Questions.Add(newQuestion);
                     context.SaveChanges();

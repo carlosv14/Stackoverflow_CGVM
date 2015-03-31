@@ -166,18 +166,36 @@ namespace WebApplication1.Controllers
                  ownerId = Guid.Parse(ticket.Name);
             }
             var context = new StackoverflowContext();
+            var questionId = context.Answers.Find(id).QuestionId;
+            var Owner = context.Questions.Find(questionId).Owner.Id;
             foreach (Answer a in context.Answers)
             {
-                if(ownerId!= context.Questions.Find(context.Answers.Find(id).QuestionId).Owner.Id)
-                    return RedirectToAction("ViewAnswer", new { id = id });
-                if(a.QuestionId == context.Answers.Find(id).QuestionId)
-                    if (a.isCorrect)
-                        return RedirectToAction("ViewAnswer", new { id = id });
+                if(ownerId!= Owner)
+                    return RedirectToAction("Detail","Question", new { id = questionId });
+                
             }
-            context.Answers.Find(id).isCorrect = true;
+            if (context.Answers.Find(id).isCorrect == false)
+            {
+                if (context.Questions.Find(questionId).hasCorrectAnswer == false)
+                {
+                    context.Answers.Find(id).isCorrect = true;
+                    context.Questions.Find(questionId).hasCorrectAnswer = true;
+                    context.Questions.Find(questionId).correctAnswer = id;
+                }
+
+            }
+            else
+            {
+                if (context.Questions.Find(questionId).correctAnswer == id)
+                {
+                    context.Answers.Find(id).isCorrect = false;
+                    context.Questions.Find(questionId).hasCorrectAnswer =false;
+                    context.Questions.Find(questionId).correctAnswer = Guid.Empty;
+                }
+            }
             context.SaveChanges();
             context.Questions.Find(context.Answers.Find(id).QuestionId).correctAnswer = id;
-            return RedirectToAction("ViewAnswer", new { id = id });
+            return RedirectToAction("Detail", "Question", new { id = questionId });
         }
     }
 
