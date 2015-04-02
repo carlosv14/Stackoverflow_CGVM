@@ -12,6 +12,9 @@ namespace Stackoverflow_CGVM.Domain.Entities
         public string Email { get; set; }
         public string Passw { get; set; }
 
+        public string RegistrationDate { get; set; }
+        public int Vistas { get; set; }
+        public string LastSeen { get; set; }
         public Account()
         {
             Id = Guid.NewGuid();

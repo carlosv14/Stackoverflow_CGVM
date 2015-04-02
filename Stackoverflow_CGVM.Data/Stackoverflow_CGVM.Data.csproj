@@ -94,6 +94,10 @@
     <Compile Include="Migrations\201503302359315_IsCorrect modifications.Designer.cs">
       <DependentUpon>201503302359315_IsCorrect modifications.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201504011951272_Profile.cs" />
+    <Compile Include="Migrations\201504011951272_Profile.Designer.cs">
+      <DependentUpon>201504011951272_Profile.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Repository.cs" />
     <Compile Include="StackoverflowContext.cs" />
@@ -143,6 +147,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201503302359315_IsCorrect modifications.resx">
       <DependentUpon>201503302359315_IsCorrect modifications.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201504011951272_Profile.resx">
+      <DependentUpon>201504011951272_Profile.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

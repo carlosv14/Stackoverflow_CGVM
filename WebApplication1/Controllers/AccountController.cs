@@ -9,6 +9,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using AutoMapper;
+using Microsoft.Ajax.Utilities;
 using Newtonsoft.Json;
 using Stackoverflow_CGVM.Data;
 using Stackoverflow_CGVM.Domain.Entities;
@@ -54,6 +55,9 @@ namespace WebApplication1.Controllers
 
                 var newAccount = _mappingEngine.Map<AccountRegisterModel, Account>(modelo);
                 newAccount.confirmed = false;
+                newAccount.RegistrationDate = DateTime.Now.ToString();
+                newAccount.LastSeen = DateTime.Now.ToString();
+                newAccount.Vistas = 0;
                 _unitOfWork.AccountRepository.Insert(newAccount);
                 _unitOfWork.Save();
                 var host = HttpContext.Request.Url.Host;
@@ -102,8 +106,7 @@ namespace WebApplication1.Controllers
                 const string secret = "6LfdFAQTAAAAAKyvL-t0xljfIHEOMVlQ_aKtoKe6";
 
                 var client = new WebClient();
-                if (response != null)
-                {
+                
                     var reply =
                         client.DownloadString(
                             string.Format("https://www.google.com/recaptcha/api/siteverify?secret={0}&response={1}",
@@ -148,7 +151,7 @@ namespace WebApplication1.Controllers
                         HttpContext.Session["CaptchaActive"] = false;
                     }
                 }
-            }
+            
             LoginModel model = new LoginModel();
             model.Email = username;
             model.Passw = _encrypt.EncryptKey(password);
@@ -161,14 +164,14 @@ namespace WebApplication1.Controllers
                 Account = null;
             if (Account != null)
             {
+                
                 if (Account.confirmed == false)
                 {
                     ViewBag.Message = "Debe Confirmar su cuenta para Ingresar";
                     return View(model);
                 }
                 FormsAuthentication.SetAuthCookie(Account.Id.ToString(), false);
-               
-                return RedirectToAction("Index", "Question");
+               return RedirectToAction("Index", "Question");
                }
 
             ViewBag.Message = "El Correo electronico o contraseña incorrecta";
@@ -193,18 +196,42 @@ namespace WebApplication1.Controllers
 
         public ActionResult Logout()
         {
+            HttpCookie cookie = Request.Cookies[FormsAuthentication.FormsCookieName];
+            if (cookie != null)
+            {
+                var context = new StackoverflowContext();
+                FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(cookie.Value);
+                Guid UserId = Guid.Parse(ticket.Name);
+                var account = context.Accounts.FirstOrDefault(x => x.Id == UserId);
+                account.LastSeen = DateTime.Now.ToString();
+                context.SaveChanges();
+            }
             FormsAuthentication.SignOut();
             return RedirectToAction("Index", "Question");
-
+       
         }
 
         [Authorize]
         public ActionResult Profile(ProfileModel modelo, Guid Id)
         {
-
-            modelo.Name = _unitOfWork.AccountRepository.Get(x => x.Id == Id).First().Name;
-            modelo.Email = _unitOfWork.AccountRepository.Get(x => x.Id == Id).First().Email;
-            modelo.Reputation = 0;
+            var context = new StackoverflowContext();
+            Account user = context.Accounts.Find(Id);
+            user.Vistas++;
+            _unitOfWork.Save();
+            modelo.Email = user.Email;
+            modelo.Name = user.Name;
+            modelo.LastName = user.LastName;
+            modelo.RegistrationDate = RelativeTime(DateTime.Parse(user.RegistrationDate));
+            modelo.LastSeen = RelativeTime(DateTime.Parse(user.LastSeen));
+            modelo.Vistas = user.Vistas;
+            IEnumerable<Question> qs = context.Questions.Where(x => x.Owner.Id == Id).ToList();
+            qs = qs.OrderByDescending(x => x.CreationDate);
+            IEnumerable<Answer> ans = context.Answers.Where(x => x.Owner.Id == Id).ToList();
+            ans = ans.OrderByDescending(x => x.CreationDate);
+            if (qs.Any())
+                modelo.preguntas = qs.Take(5).ToList();
+            if (ans.Any())
+                modelo.respuestas = ans.Take(5).ToList();
             return View(modelo);
         }
 
@@ -220,8 +247,14 @@ namespace WebApplication1.Controllers
             {
                 FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(cookie.Value);
                 Guid UserId = Guid.Parse(ticket.Name);
-                modelo.Email = _unitOfWork.AccountRepository.Get(x => x.Id == UserId).First().Email;
-                modelo.Name = _unitOfWork.AccountRepository.Get(x => x.Id == UserId).First().Name;
+                Account user = _unitOfWork.AccountRepository.Get(x => x.Id == UserId).First();
+                modelo.Email = user.Email;
+                modelo.Name = user.Name;
+                modelo.LastName = user.LastName;
+                modelo.RegistrationDate = RelativeTime(DateTime.Parse(user.RegistrationDate));
+                modelo.LastSeen = RelativeTime(DateTime.Parse(user.LastSeen));
+                modelo.Vistas = user.Vistas;
+
                 return RedirectToAction("Profile", new {id = UserId});
 
             }
@@ -284,7 +317,25 @@ namespace WebApplication1.Controllers
             return View(modelo);
         }
 
-
+        private string RelativeTime(DateTime date)
+        {
+            TimeSpan timeSince = DateTime.Now.Subtract(date);
+            if (timeSince.TotalMilliseconds < 1) return "nothing";
+            if (timeSince.TotalMinutes < 1) return "just now";
+            if (timeSince.TotalMinutes < 2) return "1 minute ago";
+            if (timeSince.TotalMinutes < 60) return string.Format("{0} minutes ago", timeSince.Minutes);
+            if (timeSince.TotalMinutes < 120) return "1 hour ago";
+            if (timeSince.TotalHours < 24) return string.Format("{0} hours ago", timeSince.Hours);
+            if (timeSince.TotalDays < 2) return "yesterday";
+            if (timeSince.TotalDays < 7) return string.Format("{0} days ago", timeSince.Days);
+            if (timeSince.TotalDays < 14) return "last week";
+            if (timeSince.TotalDays < 21) return "2 weeks ago";
+            if (timeSince.TotalDays < 28) return "3 weeks ago";
+            if (timeSince.TotalDays < 60) return "last month";
+            if (timeSince.TotalDays < 365) return string.Format("{0} months ago", Math.Round(timeSince.TotalDays / 30));
+            if (timeSince.TotalDays < 730) return "last year"; //last but not least...
+            return string.Format("{0} years ago", Math.Round(timeSince.TotalDays / 365));
+        }
     }
 
 }
