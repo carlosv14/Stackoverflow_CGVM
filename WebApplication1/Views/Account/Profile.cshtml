@@ -1,77 +1,124 @@
 ﻿@model WebApplication1.Models.ProfileModel
+<html>
+<body style="background: mediumseagreen">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-5  toppad  pull-right col-md-offset-3 ">
+                <br>
+                <p class=" text-info"> Last Seen @Html.DisplayFor(model => model.LastSeen)</p>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xs-offset-0 col-sm-offset-0 col-md-offset-3 col-lg-offset-3 toppad">
 
-@{
-    ViewBag.Title = "Profile";
-}
 
-<h2>Profile</h2>
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">@Html.DisplayFor(model => model.Name) @Html.DisplayFor(model => model.LastName)</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-3 col-lg-3 " align="center">
+                                <img alt="User Pic" src="https://lh5.googleusercontent.com/-b0-k99FZlyE/AAAAAAAAAAI/AAAAAAAAAAA/eu7opA4byxI/photo.jpg?sz=100" class="img-circle">
+                            </div>
 
-<div>
-    <h4>ProfileModel</h4>
-	<hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.LastName)
-        </dt>
+                            <div class=" col-md-9 col-lg-9 ">
+                                <table class="table table-user-information">
+                                    <tbody>
+                                        <tr>
+                                            <td>@Html.DisplayNameFor(model => model.Email):</td>
+                                            <td>@Html.DisplayFor(model => model.Email)</td>
+                                        </tr>
+                                        <tr>
+                                            <td>@Html.DisplayNameFor(model => model.RegistrationDate):</td>
+                                            <td>@Html.DisplayFor(model => model.RegistrationDate)</td>
+                                        </tr>
+                                        <tr>
+                                            <td>@Html.DisplayNameFor(model => model.Vistas):</td>
+                                            <td>@Html.DisplayFor(model => model.Vistas)</td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
 
-        <dd>
-            @Html.DisplayFor(model => model.LastName)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Email)
-        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Email)
-        </dd>
+                                @if (Model.preguntas != null)
+                                {
+                                    <p>
+                                        <strong style="color: green"> Last 5 Questions: </strong>
+                                    </p>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.RegistrationDate)
-        </dt>
+                                    foreach (var q in Model.preguntas)
+                                    {
 
-        <dd>
-            @Html.DisplayFor(model => model.RegistrationDate)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.LastSeen)
-        </dt>
+                                        if (q != null)
+                                        {
+                                            <p>
 
-        <dd>
-            @Html.DisplayFor(model => model.LastSeen)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Vistas)
-        </dt>
+                                                @q.CreationDate
 
-        <dd>
-            @Html.DisplayFor(model => model.Vistas)
-        </dd>
-        <strong>Latest 5 Questions</strong>
+                                                @Html.ActionLink(q.Title, "Detail", "Question", new { Id = q.Id }, null)
+                                            </p>
 
-        @if (Model.preguntas != null)
-        {
-            foreach (var q in Model.preguntas)
-            {
 
-                if (q != null)
-                {
-                    
-                        @Html.ActionLink(q.Title, "Detail", "Question", new { Id = q.Id }, null)   @q.CreationDate
 
-                   
-                }
-            }
-        }
-    </dl>
-</div>
-<p>
-    @*@Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
-    @Html.ActionLink("Back to List", "Index")*@
-</p>
+                                        }
+                                    }
+                                }
+
+
+                                @if (Model.respuestas != null)
+                                {
+                                    <p>
+                                        <strong style="color: lightseagreen"> Last 5 Answers: </strong>
+                                    </p>
+
+                                    foreach (var r in Model.respuestas)
+                                    {
+
+                                        if (r != null)
+                                        {
+                                            <p>
+
+                                                @r.CreationDate
+
+                                                @Html.ActionLink(r.AnswerDescription.Substring(0, 25), "ViewAnswer", "Answer", new { id = r.Id }, null)
+                                            </p>
+
+
+
+                                        }
+                                    }
+                                }
+
+
+
+
+
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-footer">
+                        <a data-original-title="Broadcast Message" data-toggle="tooltip" type="button" class="btn btn-sm btn-primary"><i class="glyphicon glyphicon-envelope"></i></a>
+                        <span class="pull-right">
+                            <a href="edit.html" data-original-title="Edit this user" data-toggle="tooltip" type="button" class="btn btn-sm btn-warning"><i class="glyphicon glyphicon-edit"></i></a>
+                            <a data-original-title="Remove this user" data-toggle="tooltip" type="button" class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-remove"></i></a>
+                        </span>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
+
+        
+        
+       
+        
+      
