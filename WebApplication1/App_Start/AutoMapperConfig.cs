@@ -19,6 +19,8 @@ namespace WebApplication1.App_Start
             Mapper.CreateMap<AnswerModel, Answer>().ReverseMap();
             Mapper.CreateMap<AnswerCreateModel, Answer>();
             Mapper.CreateMap<DetailModel, Question>().ReverseMap();
+            Mapper.CreateMap<CreateCommentModel, Comment>().ReverseMap();
+
         }
     }
 }

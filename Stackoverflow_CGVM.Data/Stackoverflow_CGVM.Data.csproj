@@ -98,6 +98,18 @@
     <Compile Include="Migrations\201504011951272_Profile.Designer.cs">
       <DependentUpon>201504011951272_Profile.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201504030422047_Comments.cs" />
+    <Compile Include="Migrations\201504030422047_Comments.Designer.cs">
+      <DependentUpon>201504030422047_Comments.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201504030430533_CommentUpdate.cs" />
+    <Compile Include="Migrations\201504030430533_CommentUpdate.Designer.cs">
+      <DependentUpon>201504030430533_CommentUpdate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201504030516418_CommentUpdate1.cs" />
+    <Compile Include="Migrations\201504030516418_CommentUpdate1.Designer.cs">
+      <DependentUpon>201504030516418_CommentUpdate1.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Repository.cs" />
     <Compile Include="StackoverflowContext.cs" />
@@ -150,6 +162,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201504011951272_Profile.resx">
       <DependentUpon>201504011951272_Profile.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201504030422047_Comments.resx">
+      <DependentUpon>201504030422047_Comments.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201504030430533_CommentUpdate.resx">
+      <DependentUpon>201504030430533_CommentUpdate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201504030516418_CommentUpdate1.resx">
+      <DependentUpon>201504030516418_CommentUpdate1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

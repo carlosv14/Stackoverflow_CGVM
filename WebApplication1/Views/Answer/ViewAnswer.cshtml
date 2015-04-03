@@ -4,63 +4,45 @@
     ViewBag.Title = "ViewAnswer";
 }
 
-<h2>ViewAnswer</h2>
+<div class="container">
+    <div class="col-md-12">
+        <p>
 
-<div>
-    <h4>AnswerModel</h4>
-	<hr />
-    <dl class="dl-horizontal" style="background: aqua">
-        <dt>
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Description)
-        </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Votes)
-        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Votes)
-        </dd>
+        </p>
+        <p>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.CreationDate)
-        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.CreationDate)
-        </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.ModificationDate)
-        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.ModificationDate)
-        </dd>
+        </p>
+        <p>
+            @Html.DisplayFor(model => model.AnswerDescription)
+        </p>
+        <div>
+            <span class="badge">Posted @Html.DisplayFor(model => model.CreationDate)</span><div class="pull-right">
+                <span class="label label-default">Votes: @Html.DisplayFor(model => model.Votes)</span> <span class="label label-primary">By: @Html.DisplayFor(model => model.OwnerName)</span> 
+                @if (Model.isCorrect)
+                {
+                    <span class="label label-success">Correct Answer!</span>
+                }
+            </div>
+        </div>
+        <hr>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.OwnerName)
-        </dt>
+    </div>
+    </div>
+       <a href="@Url.Action("MeGusta","Answer", new { id = Model.Id })">
+    <button type="button" class="btn btn-success">ThumbsUp! </button>
 
-        <dd>
-            @Html.DisplayFor(model => model.OwnerName)
-        </dd>
-        <dd>
-            @Html.DisplayFor(model => model.isCorrect)
-        </dd>
+</a>
+<a href="@Url.Action("NoMeGusta", "Answer", new {id = Model.Id})">
 
-        <dt>
-            @Html.DisplayNameFor(model => model.isCorrect)
-        </dt>
+    <button type="button" class="btn btn-danger">ThumbsDown! </button>
 
-    </dl>
-</div>
-<p>
-    @Html.ActionLink("Like", "MeGusta", new { id = Model.Id }) |
-    @Html.ActionLink("Unlike", "NoMeGusta", new {id = Model.Id})|
-    @Html.ActionLink("Marcar Como Correcta", "Correcta", new { id = Model.Id })
-</p>
+</a>
+<a href="@Url.Action("Correcta","Answer", new { id = Model.Id })">
+    <button type="button" class="btn btn-info">Correct! </button>
+</a>

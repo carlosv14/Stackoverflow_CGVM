@@ -251,6 +251,7 @@ namespace WebApplication1.Controllers
                 modelo.Email = user.Email;
                 modelo.Name = user.Name;
                 modelo.LastName = user.LastName;
+                user.Vistas--;
                 modelo.RegistrationDate = RelativeTime(DateTime.Parse(user.RegistrationDate));
                 modelo.LastSeen = RelativeTime(DateTime.Parse(user.LastSeen));
                 modelo.Vistas = user.Vistas;

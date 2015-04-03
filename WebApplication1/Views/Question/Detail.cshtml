@@ -7,6 +7,9 @@
 {
     <div class="alert alert-danger" role="alert">@ViewBag.Message</div>
 }
+
+
+
 <div class="col-md-20 content">
     <div class="panel panel-default">
         <div class="panel-heading">
@@ -15,7 +18,7 @@
         <div class="panel-body">
             <p>
                 @Html.Raw(Model.Description)
-                <div class="badge">@Html.DisplayFor(model => model.CreationDate)</div>
+              <div class="badge">@Html.DisplayFor(model => model.CreationDate)</div>
             </p>
             
                 <h2>
@@ -32,6 +35,7 @@
                 <button type="button" class="btn btn-danger">ThumbsDown! </button>
 
             </a>
+            @{ Html.RenderAction("Index", "Comment", new { id = Model.Id });}
         </div>
     </div>
 </div>
@@ -39,34 +43,60 @@
 
 
 <div class="row">
-    @{Html.RenderAction("Index", "Answer", new { questionId = Model.Id });}
+    @using (Html.BeginForm("CreateComment", "Comment", new {Id = Model.Id}))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="container">
+
+
+            <div class="col-md-10">
+                <div style="word-wrap: break-word;">
+                    @Html.TextAreaFor(model => model.CommentDescription)
+
+
+                </div>
+            </div>
+
+
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Comment" class="btn btn-default"/>
+                </div>
+            </div>
+        </div>
+
+    }
+    @{Html.RenderAction("Index", "Answer", new {questionId = Model.Id});}
     @using (Html.BeginForm("CreateAnswer", "Answer", new {questionId = Model.Id}))
     {
         @Html.AntiForgeryToken()
 
-    <div class="form-horizontal">
-        <h4>AnswerCreateModel</h4>
-        <hr />
-        @Html.ValidationSummary(true)
+        <div class="container">
+            @Html.ValidationSummary(true)
 
 
-        <div class="col-md-10">
-            <div style="word-wrap: break-word;">
-                <div class="mdd_toolbar" style="height: 30px;"></div>
-                @Html.TextAreaFor(model => model.AnswerDescription, new { @class = "mdd_editor", style = "width:800px; height:100px;" })
-              @if (TempData["AnswerBelow5word"] != null)
-{
-    @Html.Label("*" + TempData["AnswerBelow5word"].ToString(), htmlAttributes: new { style = "color: red" })
-}
+            <div class="col-md-10">
+                <div style="word-wrap: break-word;">
+                    <div class="mdd_toolbar" style="height: 30px;"></div>
+                    @Html.TextAreaFor(model => model.AnswerDescription, new {@class = "mdd_editor", style = "width:800px; height:100px;"})
+
+                    @if (TempData["AnswerBelow5word"] != null)
+                    {
+                        @Html.Label("*" + TempData["AnswerBelow5word"].ToString(), htmlAttributes: new {style = "color: red"})
+                    }
+                </div>
             </div>
-        </div>
-    <script>
-        $("textarea.mdd_editor").MarkdownDeep({
-            help_location: "/Scripts/mdd_help.html",
-            ExtraMode: true, disableTabHandling: true
+            <script>
+                $("textarea.mdd_editor").MarkdownDeep({
+                    help_location: "/Scripts/mdd_help.html",
+                    ExtraMode: true,
+                    disableTabHandling: true
 
-        });
-    </script>
+                });
+            </script>
+
             <div class="form-group">
                 @*@Html.LabelFor(model => model.QuestionId, new { @class = "control-label col-md-2" })*@
                 <div class="col-md-10">
@@ -81,6 +111,6 @@
                 </div>
             </div>
         </div>
-         
+
     }
 </div>

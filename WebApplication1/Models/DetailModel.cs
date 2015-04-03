@@ -17,5 +17,6 @@ namespace WebApplication1.Models
         public DateTime CreationDate  { get; set; }
         [Required]
         public string AnswerDescription { get; set; }
+        public string CommentDescription { get; set; }
     }
 }

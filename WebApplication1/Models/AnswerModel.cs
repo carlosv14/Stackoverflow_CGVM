@@ -9,7 +9,7 @@ namespace WebApplication1.Models
     public class AnswerModel
     {
         [Required]
-        public string Description { get; set; }
+        public string AnswerDescription { get; set; }
         public int Votes { get; set; }
         public DateTime CreationDate { get; set; }
         public DateTime ModificationDate { get; set; }
