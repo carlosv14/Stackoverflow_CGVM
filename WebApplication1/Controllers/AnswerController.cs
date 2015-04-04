@@ -45,7 +45,6 @@ namespace WebApplication1.Controllers
                     answer.QuestionId = a.QuestionId;
                     answer.OwnerId = a.Owner.Id;
                     answer.Best = a.isCorrect;
-  
                     answer.Description = md.Transform(a.AnswerDescription);
                     models.Add(answer);
                 }
@@ -80,6 +79,9 @@ namespace WebApplication1.Controllers
                 if (wordColl.Count < 5 || charColl.Count < 50)
                 {
                     TempData["AnswerBelow5word"] = "Answer must have at least 5 words and 50 characters";
+                    var context = new StackoverflowContext();
+                    context.Questions.Find(questionId).Vistas--;
+                    context.SaveChanges();
                     return RedirectToAction("Detail", "Question", new {ID = questionId});
                 }
             }
@@ -101,6 +103,9 @@ namespace WebApplication1.Controllers
                     context.Answers.Add(newAnswer);
                     context.SaveChanges();
                 }
+                context.Questions.Find(questionId).Vistas--;
+                context.Questions.Find(questionId).CantidadRespuestas++;
+                context.SaveChanges();
                 return RedirectToAction("Detail", "Question", new { ID = questionId });
 
             }
@@ -122,6 +127,7 @@ namespace WebApplication1.Controllers
         {
             var context = new StackoverflowContext();
             var voto= new Vote();
+            var vistas = context.Questions.Find(Id).Vistas;
             Guid questionId = context.Answers.Find(Id).QuestionId;
              HttpCookie cookie = Request.Cookies[FormsAuthentication.FormsCookieName];
             if (cookie != null)
@@ -133,6 +139,7 @@ namespace WebApplication1.Controllers
                 {
                     if (ownerID == vote.OwnerID && Id == vote.QorA_ID) {
                         ViewBag.Message = "Ya voto sobre esta respuesta";
+                        vistas--;
                         return RedirectToAction("Detail","Question", new{Id = questionId});
                        
                     }
@@ -143,6 +150,7 @@ namespace WebApplication1.Controllers
                 context.Votes.Add(voto);
             }
             context.Answers.Find(Id).Votes ++;
+            vistas--;   
             context.SaveChanges();
             return RedirectToAction("Detail","Question", new {Id = questionId});
         }
@@ -152,6 +160,7 @@ namespace WebApplication1.Controllers
         {
             var context = new StackoverflowContext();
             var voto = new Vote();
+            var vistas = context.Questions.Find(Id).Vistas;
             Guid questionId = context.Answers.Find(Id).QuestionId;
             HttpCookie cookie = Request.Cookies[FormsAuthentication.FormsCookieName];
             if (cookie != null)
@@ -162,6 +171,7 @@ namespace WebApplication1.Controllers
                 {
                     if (ownerID == vote.OwnerID && Id == vote.QorA_ID) {
                         ViewBag.Message = "Ya voto sobre esta respuesta";
+                        vistas--;
                         return RedirectToAction("Detail", "Question", new { Id = questionId });
                        
                     }
@@ -171,6 +181,7 @@ namespace WebApplication1.Controllers
                 context.Votes.Add(voto);
             }
             context.Answers.Find(Id).Votes--;
+            vistas--;
             context.SaveChanges();
             return RedirectToAction("Detail", "Question", new { Id = questionId });
         }
@@ -190,8 +201,11 @@ namespace WebApplication1.Controllers
             foreach (Answer a in context.Answers)
             {
                 if(ownerId!= Owner)
-                    return RedirectToAction("Detail","Question", new { id = questionId });
-                
+                {
+                     context.Questions.Find(questionId).Vistas--;
+                         context.SaveChanges();
+                    return RedirectToAction("Detail", "Question", new {id = questionId});
+                }
             }
             if (context.Answers.Find(id).isCorrect == false)
             {
@@ -212,8 +226,8 @@ namespace WebApplication1.Controllers
                     context.Questions.Find(questionId).correctAnswer = Guid.Empty;
                 }
             }
+            context.Questions.Find(questionId).Vistas--;
             context.SaveChanges();
-            context.Questions.Find(context.Answers.Find(id).QuestionId).correctAnswer = id;
             return RedirectToAction("Detail", "Question", new { id = questionId });
         }
     }

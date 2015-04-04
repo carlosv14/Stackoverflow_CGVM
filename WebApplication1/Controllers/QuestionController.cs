@@ -19,9 +19,12 @@ namespace WebApplication1.Controllers
     {
         
         private readonly IMappingEngine _mappingEngine;
+
+       
         public QuestionController(IMappingEngine mappingEngine)
         {
             _mappingEngine = mappingEngine;
+            
         }
         //
         // GET: /Question/
@@ -29,8 +32,12 @@ namespace WebApplication1.Controllers
         [AllowAnonymous]
         public ActionResult Index()
         {
+            if (HttpContext.Session != null && HttpContext.Session["Multiplicador"] == null)
+                HttpContext.Session["Multiplicador"] = 1;
+
             IList<QuestionListModel> models = new ListStack<QuestionListModel>();
             var context = new StackoverflowContext();
+            ViewBag.cantidad = false;
             foreach (Question q in context.Questions.Include("Owner"))
             {
                 QuestionListModel question1 = new QuestionListModel();
@@ -38,6 +45,8 @@ namespace WebApplication1.Controllers
                 question1.Votes = q.Votes;
                 question1.CreationTime = q.CreationDate;
                 question1.OwnerName = q.Owner.Name;
+                question1.Vistas = q.Vistas;
+                question1.CantidadRespuestas = q.CantidadRespuestas;
                 question1.Description = q.Description;
                 if (question1.Description.Length > 25)
                    question1.Description= question1.Description.Remove(25);
@@ -45,7 +54,35 @@ namespace WebApplication1.Controllers
                 question1.OwnerId = q.Owner.Id;
                 models.Add(question1);
             }
-           
+            models = models.OrderByDescending(x => x.CreationTime).ToList();
+            ViewBag.order = "Votes";
+             if ((HttpContext.Session != null && HttpContext.Session["Order"] == null)||(int)HttpContext.Session["Order"] ==4)
+            {
+                HttpContext.Session["Order"] = 0;
+                ViewBag.order = "Votes";
+                models = models.OrderByDescending(x => x.CreationTime).ToList();
+              
+            }
+             else if ((int)HttpContext.Session["Order"]==1)
+            {
+                models = models.OrderByDescending(x => x.Votes).ToList();
+                ViewBag.order = "Answers";
+            }
+             else if ((int)HttpContext.Session["Order"] == 2)
+            {
+                models = models.OrderByDescending(x => x.CantidadRespuestas).ToList();
+                ViewBag.order = "Views";
+            }
+             else if ((int)HttpContext.Session["Order"] == 3)
+             {
+                 models = models.OrderByDescending(x => x.Vistas).ToList();
+                 ViewBag.order = "Dates";
+               
+             }
+
+             if (models.Count > (int)HttpContext.Session["Multiplicador"] * 25)
+                 ViewBag.cantidad = true;
+             models = models.Take((int)HttpContext.Session["Multiplicador"] * 25).ToList();
             return View(models);
         }
 
@@ -68,6 +105,8 @@ namespace WebApplication1.Controllers
                     FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(cookie.Value);
                     Guid ownerId = Guid.Parse(ticket.Name);
                     newQuestion.Votes =0;
+                    newQuestion.Vistas = 0;
+                    newQuestion.CantidadRespuestas = 0;
                     newQuestion.Owner = context.Accounts.FirstOrDefault(x => x.Id == ownerId);
                     newQuestion.ModificationDate = DateTime.Now;
                     newQuestion.CreationDate = DateTime.Now;
@@ -88,19 +127,24 @@ namespace WebApplication1.Controllers
              DetailModel model = new DetailModel();
              var question = _mappingEngine.Map<DetailModel, Question>(model);    
             var context = new StackoverflowContext();
+             context.Questions.Find(Id).Vistas++;
+             context.SaveChanges();
             model.Title = context.Questions.FirstOrDefault(x => x.Id == Id).Title;
             model.Description = md.Transform(context.Questions.FirstOrDefault(x => x.Id == Id).Description);
             model.Votes = context.Questions.FirstOrDefault(x => x.Id == Id).Votes;
             model.Id = context.Questions.FirstOrDefault(x => x.Id == Id).Id;
-             model.CreationDate = context.Questions.FirstOrDefault(x => x.Id == Id).CreationDate;
+            model.CreationDate = context.Questions.FirstOrDefault(x => x.Id == Id).CreationDate;
+            model.Vistas = context.Questions.FirstOrDefault(x => x.Id == Id).Vistas;
+
              return View(model);
         }
 
-        
+      
         public ActionResult MeGusta(Guid Id)
         {
             var context = new StackoverflowContext();
             var voto = new Vote();
+            var vistas = context.Questions.Find(Id).Vistas;
             HttpCookie cookie = Request.Cookies[FormsAuthentication.FormsCookieName];
             if (cookie != null)
             {
@@ -110,6 +154,8 @@ namespace WebApplication1.Controllers
                 {
                     if (ownerID == vote.OwnerID && Id == vote.QorA_ID) {
                         ViewBag.Message = "Ya voto sobre esta pregunta";
+                            vistas--;
+
                         return RedirectToAction("Detail", "Question", new { Id = Id});
 
                        
@@ -121,6 +167,7 @@ namespace WebApplication1.Controllers
             }
 
             context.Questions.Find(Id).Votes++;
+            vistas--;
             context.SaveChanges();
             return RedirectToAction("Detail", new {Id = Id});
         }
@@ -128,7 +175,7 @@ namespace WebApplication1.Controllers
         {
             var context = new StackoverflowContext();
             var voto = new Vote();
-
+            var vistas = context.Questions.Find(Id).Vistas;
             HttpCookie cookie = Request.Cookies[FormsAuthentication.FormsCookieName];
             if (cookie != null)
             {
@@ -140,6 +187,7 @@ namespace WebApplication1.Controllers
                     if (ownerID == vote.OwnerID && Id == vote.QorA_ID)
                     {
                         ViewBag.Message = "Ya voto sobre esta pregunta";
+                        vistas--;
                         return RedirectToAction("Detail", "Question", new {Id = Id});
                        
                     }
@@ -150,6 +198,7 @@ namespace WebApplication1.Controllers
                 context.Votes.Add(voto);
             }
             context.Questions.Find(Id).Votes--;
+            vistas--;
             context.SaveChanges();
             return RedirectToAction("Detail", new { Id = Id });
         }
@@ -162,7 +211,21 @@ namespace WebApplication1.Controllers
           
         public ActionResult CreateAnswer(Guid Id)
         {
+        
             return RedirectToAction("CreateAnswer", "Answer", new { questionId = Id });
+        }
+
+        public ActionResult makeChange()
+        {
+            if (HttpContext.Session["Order"] != null)
+                HttpContext.Session["Order"] = (int)HttpContext.Session["Order"] + 1;
+            return RedirectToAction("Index");
+        }
+
+        public ActionResult CargarMas()
+        {
+            HttpContext.Session["Multiplicador"] = (int)HttpContext.Session["Multiplicador"]+1;
+            return RedirectToAction("Index");
         }
     }
 }

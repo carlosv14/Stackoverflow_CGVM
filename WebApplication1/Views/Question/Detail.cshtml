@@ -24,8 +24,11 @@
                 <h2>
                     @Html.DisplayFor(model => model.Votes) <small> votes </small>
                 </h2>
-            
-
+            <div class="pull-right">
+                <h2>
+                    <span class="glyphicon-eye-open"></span>  @Html.DisplayFor(model => model.Vistas) <small> views </small>
+                </h2>
+            </div>
             <a href="@Url.Action("MeGusta", "Question", new {id = Model.Id})">
                 <button type="button" class="btn btn-success">ThumbsUp! </button>
 
@@ -35,7 +38,6 @@
                 <button type="button" class="btn btn-danger">ThumbsDown! </button>
 
             </a>
-            @{ Html.RenderAction("Index", "Comment", new { id = Model.Id });}
         </div>
     </div>
 </div>
@@ -43,6 +45,9 @@
 
 
 <div class="row">
+    @{ Html.RenderAction("Index", "Comment", new { id = Model.Id });}
+
+
     @using (Html.BeginForm("CreateComment", "Comment", new {Id = Model.Id}))
     {
         @Html.AntiForgeryToken()
@@ -52,17 +57,15 @@
 
             <div class="col-md-10">
                 <div style="word-wrap: break-word;">
-                    @Html.TextAreaFor(model => model.CommentDescription)
-
-
+                    <center>@Html.TextAreaFor(model => model.CommentDescription)</center>
                 </div>
             </div>
 
 
 
             <div class="form-group">
-                <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="Comment" class="btn btn-default"/>
+                <div class="col-md-10">
+                    <center> <input type="submit" value="Comment" class="btn btn-default" /></center> 
                 </div>
             </div>
         </div>
@@ -80,7 +83,7 @@
             <div class="col-md-10">
                 <div style="word-wrap: break-word;">
                     <div class="mdd_toolbar" style="height: 30px;"></div>
-                    @Html.TextAreaFor(model => model.AnswerDescription, new {@class = "mdd_editor", style = "width:800px; height:100px;"})
+                     @Html.TextAreaFor(model => model.AnswerDescription, new {@class = "mdd_editor", style = "width:800px; height:100px;"})
 
                     @if (TempData["AnswerBelow5word"] != null)
                     {

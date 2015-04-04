@@ -10,8 +10,6 @@ namespace Stackoverflow_CGVM.Domain.Entities
     public class Question : IEntity
     {
         public Guid Id { get; private set; }
-
-
         public int Votes { get; set; }
         public string Description { get; set; }
         public virtual Account Owner { get; set; }
@@ -19,7 +17,9 @@ namespace Stackoverflow_CGVM.Domain.Entities
         public DateTime CreationDate { get; set; }
         public DateTime ModificationDate { get; set; }
         public Guid correctAnswer { get; set; }
+        public int CantidadRespuestas { get; set; }
         public bool hasCorrectAnswer { get; set; }
+        public int Vistas { get; set; }
         public Question()
         {
 

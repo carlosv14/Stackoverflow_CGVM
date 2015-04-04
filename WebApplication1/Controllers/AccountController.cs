@@ -203,6 +203,7 @@ namespace WebApplication1.Controllers
                 FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(cookie.Value);
                 Guid UserId = Guid.Parse(ticket.Name);
                 var account = context.Accounts.FirstOrDefault(x => x.Id == UserId);
+                if(account!=null)
                 account.LastSeen = DateTime.Now.ToString();
                 context.SaveChanges();
             }

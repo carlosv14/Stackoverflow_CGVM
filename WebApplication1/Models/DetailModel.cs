@@ -18,5 +18,6 @@ namespace WebApplication1.Models
         [Required]
         public string AnswerDescription { get; set; }
         public string CommentDescription { get; set; }
+        public int Vistas { get; set; }
     }
 }

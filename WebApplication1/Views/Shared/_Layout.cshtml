@@ -19,8 +19,9 @@
                     <span class="icon-bar"></span>
                 </button>
 
-                @Html.ActionLink("Stackoverflow", "Index", "Question", null, new {@class = "navbar-brand"})
-            </div>
+                @Html.ActionLink("Stackoverflow", "Index", "Question", new{num = 0}, new {@class = "navbar-brand"})
+                
+                  </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     @if (Context.User.Identity.IsAuthenticated)

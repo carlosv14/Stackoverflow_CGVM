@@ -110,6 +110,10 @@
     <Compile Include="Migrations\201504030516418_CommentUpdate1.Designer.cs">
       <DependentUpon>201504030516418_CommentUpdate1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201504040228204_QuestionUpdate.cs" />
+    <Compile Include="Migrations\201504040228204_QuestionUpdate.Designer.cs">
+      <DependentUpon>201504040228204_QuestionUpdate.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Repository.cs" />
     <Compile Include="StackoverflowContext.cs" />
@@ -171,6 +175,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201504030516418_CommentUpdate1.resx">
       <DependentUpon>201504030516418_CommentUpdate1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201504040228204_QuestionUpdate.resx">
+      <DependentUpon>201504040228204_QuestionUpdate.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

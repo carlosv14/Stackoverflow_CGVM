@@ -15,5 +15,8 @@ namespace WebApplication1.Models
         public Guid OwnerId { get; set; }
         public Guid QuestionId { get; set; }
         public string Description { get; set; }
+
+        public int Vistas { get; set; }
+        public int CantidadRespuestas { get; set; }
         }
     }

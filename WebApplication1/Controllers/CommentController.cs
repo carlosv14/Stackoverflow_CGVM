@@ -73,9 +73,12 @@ namespace WebApplication1.Controllers
                     if (isItAnswer(Id) != null)
                     {
                         var question = context.Questions.Find(isItAnswer(Id).QuestionId);
-
+                        context.Questions.Find(Id).Vistas--;
+                        context.SaveChanges();
                         return RedirectToAction("Detail", "Question", new {Id = question.Id});
                     }
+                    context.Questions.Find(Id).Vistas--;
+                    context.SaveChanges();
                     return RedirectToAction("Detail", "Question", new {Id = Id});
 
                 }
