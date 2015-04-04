@@ -1,64 +1,69 @@
 ﻿@model IEnumerable<WebApplication1.Models.QuestionListModel>
-<div class="container">
-    <div class="row">
+<html>
+<body>
+    <div class="container">
+        <div class="row">
             <h1 class="text-center" style="color: green">Questions</h1>
-        <p>
-            @Html.ActionLink("Create New", "CreateQuestion")
-        </p>
+            <p>
+                @Html.ActionLink("Create New", "CreateQuestion")
+            </p>
 
-        @if (ViewBag.order != null)
-        {
-           
+            @if (ViewBag.order != null)
+            {
+
                 <a href="@Url.Action("makeChange", "Question")">
                     <div class="col-md-offset-10"><button type="button" class="btn btn-success">Order by @ViewBag.order</button></div>
                 </a>
 
-                }
-                @foreach (var item in Model)
+            }
+            @foreach (var item in Model)
             {
-                    <div class="container">
-                        <div class="well">
-                            <div class="media">
+                <div class="container">
+                    <div class="well">
+                        <div class="media">
 
-                                <a class="pull-left" href="#">
-                                    <img class="media-object" src="http://2.bp.blogspot.com/-aZdMZYC0v_g/ULIqSGSsRwI/AAAAAAAArCw/MmBC7EdixSY/s1600/question+person+(8).jpg" style="height: 130px; width: 100px">
-                                </a>
-                                <div class="media-body">
-                                    <h4 class="media-heading">@Html.DisplayFor(model => item.Title)</h4>
-                                    <p class="text-right">By @Html.ActionLink(item.OwnerName, "Profile", "Account", new { id = item.OwnerId }, null)</p>
-                                    <p>
-                                        @Html.DisplayFor(model => item.Description, new { @class = "mdd_editor" })
-                                        @Html.ActionLink("Read More..", "Detail", new { id = item.QuestionId }, null)
+                            <a class="pull-left" href="#">
+                                <img class="media-object" src="http://2.bp.blogspot.com/-aZdMZYC0v_g/ULIqSGSsRwI/AAAAAAAArCw/MmBC7EdixSY/s1600/question+person+(8).jpg" style="height: 130px; width: 100px">
+                            </a>
+                            <div class="media-body">
+                                <h4 class="media-heading">@Html.DisplayFor(model => item.Title)</h4>
+                                <p class="text-right">By @Html.ActionLink(item.OwnerName, "Profile", "Account", new { id = item.OwnerId }, null)</p>
+                                <p>
+                                    @Html.DisplayFor(model => item.Description, new { @class = "mdd_editor" })
+                                    @Html.ActionLink("Read More..", "Detail", new { id = item.QuestionId }, null)
 
-                                    </p>
+                                </p>
 
-                                    <ul class="list-inline list-unstyled">
-                                        <li><span><i class="glyphicon glyphicon-calendar"></i> @Html.DisplayFor(model => item.CreationTime) </span></li>
-                                        <li>|</li>
-                                        <span><i class="glyphicon glyphicon-comment"></i> Answers: @Html.DisplayFor(model => item.CantidadRespuestas) </span>
-                                        <li>|</li>
-                                        <li>
-                                            <span class="glyphicon glyphicon-star"></span>
-                                            Votes: @Html.DisplayFor(model => item.Votes)
-                                        </li>
-                                        <li>|</li>
-                                        <li><span class="glyphicon-eye-open"> Views: @Html.DisplayFor(model => item.Vistas)</span></li>
-                                    </ul>
-                                </div>
+                                <ul class="list-inline list-unstyled">
+                                    <li><span><i class="glyphicon glyphicon-calendar"></i> @Html.DisplayFor(model => item.CreationTime) </span></li>
+                                    <li>|</li>
+                                    <span><i class="glyphicon glyphicon-comment"></i> Answers: @Html.DisplayFor(model => item.CantidadRespuestas) </span>
+                                    <li>|</li>
+                                    <li>
+                                        <span class="glyphicon glyphicon-star"></span>
+                                        Votes: @Html.DisplayFor(model => item.Votes)
+                                    </li>
+                                    <li>|</li>
+                                    <li><span class="glyphicon-eye-open"> Views: @Html.DisplayFor(model => item.Vistas)</span></li>
+                                </ul>
                             </div>
                         </div>
                     </div>
+                </div>
 
             }
-        @if (ViewBag.cantidad!= null)
-        {
-            if(ViewBag.cantidad)
-             {
-                 <a href="@Url.Action("CargarMas", "Question")">
-                     <div class="col-md-offset-10"><button type="button" class="btn btn-info">Ver Mas</button>
-                     </div>
-                 </a>
-             }
-        }
-            </div>
+            @if (ViewBag.cantidad != null)
+            {
+                if (ViewBag.cantidad)
+                {
+                    <a href="@Url.Action("CargarMas", "Question")">
+                        <div class="col-md-offset-10">
+                            <button type="button" class="btn btn-info">Ver Mas</button>
+                        </div>
+                    </a>
+                }
+            }
+        </div>
     </div>
+</body>
+</html>
