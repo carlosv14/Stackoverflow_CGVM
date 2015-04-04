@@ -12,6 +12,8 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using RestSharp.Portable;
+using RestSharp.Portable.Deserializers;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=391641
 
@@ -25,33 +27,39 @@ namespace Stackoverflow_CGVM.Phone
         public MainPage()
         {
             this.InitializeComponent();
-            foreach (var VARIABLE in App.listofquestionsforlistview.questions)
-            {
-                questionsList.Items.Add(VARIABLE.Title);
-                questionsList.Items.Add(VARIABLE.Description);
-            }
+           
             this.NavigationCacheMode = NavigationCacheMode.Required;
         }
 
-        /// <summary>
-        /// Invoked when this page is about to be displayed in a Frame.
-        /// </summary>
-        /// <param name="e">Event data that describes how this page was reached.
-        /// This parameter is typically used to configure the page.</param>
+       
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            // TODO: Prepare page for display here.
-
-            // TODO: If your application contains multiple pages, ensure that you are
-            // handling the hardware Back button by registering for the
-            // Windows.Phone.UI.Input.HardwareButtons.BackPressed event.
-            // If you are using the NavigationHelper provided by some templates,
-            // this event is handled for you.
+            
         }
 
         private void TextBlock_SelectionChanged(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private async void GetList()
+        {
+            RestClient cliente = new RestClient()
+            {
+                BaseUrl = new Uri("http://localhost:1885/")
+            };
+            RestRequest request = new RestRequest { Resource = "api/QuestionIndex" };
+            var result = await cliente.Execute(request);
+            RestSharp.Portable.Deserializers.JsonDeserializer deserial = new JsonDeserializer();
+            var list = deserial.Deserialize<IEnumerable<QuestionListModel>>(result);
+            foreach (var VARIABLE in list)
+            {
+                if (questionsList.Items != null)
+                {
+                    questionsList.Items.Add(VARIABLE.Title);
+                    questionsList.Items.Add(VARIABLE.Description);
+                }
+            } 
         }
     }
 }
