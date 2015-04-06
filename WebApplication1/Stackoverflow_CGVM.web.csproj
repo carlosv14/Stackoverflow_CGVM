@@ -153,6 +153,8 @@
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="api\AnswerIndexController.cs" />
+    <Compile Include="api\CreateAnswerController.cs" />
     <Compile Include="api\CreateQuestionController.cs" />
     <Compile Include="api\LoginController.cs" />
     <Compile Include="api\QuestionDetailController.cs" />

@@ -114,6 +114,10 @@
     <Compile Include="Migrations\201504040228204_QuestionUpdate.Designer.cs">
       <DependentUpon>201504040228204_QuestionUpdate.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201504050319099_addedSessions.cs" />
+    <Compile Include="Migrations\201504050319099_addedSessions.Designer.cs">
+      <DependentUpon>201504050319099_addedSessions.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Repository.cs" />
     <Compile Include="StackoverflowContext.cs" />
@@ -178,6 +182,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201504040228204_QuestionUpdate.resx">
       <DependentUpon>201504040228204_QuestionUpdate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201504050319099_addedSessions.resx">
+      <DependentUpon>201504050319099_addedSessions.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

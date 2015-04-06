@@ -15,20 +15,32 @@ namespace WebApplication1.api
 {
     public class LoginController :ApiController
     {
-        public HttpResponseMessage PostLogin(LoginModel model)
+        private Encriptar _encrypt = new Encriptar();
+
+        public string PostLogin(LoginModel model)
         {
-            var _unitOfWork = new UnitOfWork();
+            var password = _encrypt.EncryptKey(model.Passw);
+            var context = new StackoverflowContext();
+            model.Passw = password;
             if (!model.Email.IsNullOrWhiteSpace() && !model.Passw.IsNullOrWhiteSpace())
             {
-                Account account = _unitOfWork.AccountRepository.Get(x => x.Email == model.Email && x.Passw == model.Passw).First();
+                Account account = context.Accounts.FirstOrDefault(x => x.Email == model.Email && x.Passw == model.Passw);
                 if (account != null)
                 {
+                    Sessions session = new Sessions();
+                    session.Token = _encrypt.EncryptKey(model.Email);
+                    session.Token += _encrypt.EncryptKey(model.Passw);
+                    session.whosLoggedId = account.Id;
+
+                    context.sessions.Add(session);
+                    context.SaveChanges();
                     HttpResponseMessage response = this.Request.CreateResponse(HttpStatusCode.Created, model);
 
-                    return response;
+                    return session.Token;
                 }
+                return null;
             }
-            throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.BadRequest));
+            return null;
         }
     }
     }

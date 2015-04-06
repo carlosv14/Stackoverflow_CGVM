@@ -12,5 +12,7 @@ namespace WebApplication1.Models
         [StringLength(250, ErrorMessage = "Answer must be between 5 and 250 characters", MinimumLength = 5)]
         public string AnswerDescription { get; set; }
         public Guid QuestionId { get; set; }
+
+        public string token { get; set; }
     }
 }

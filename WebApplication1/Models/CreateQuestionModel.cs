@@ -18,5 +18,7 @@ namespace WebApplication1.Models
         [NewQuestionDescriptionValidation(ErrorMessage = "Must contain at least 5 words")]
         public string Description { get; set; }
 
+          public string token { get; set; }
+
     }
 }
