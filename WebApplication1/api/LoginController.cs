@@ -31,9 +31,12 @@ namespace WebApplication1.api
                     session.Token = _encrypt.EncryptKey(model.Email);
                     session.Token += _encrypt.EncryptKey(model.Passw);
                     session.whosLoggedId = account.Id;
-
-                    context.sessions.Add(session);
-                    context.SaveChanges();
+                  var existent=  context.sessions.FirstOrDefault(x => x.Token == session.Token);
+                    if (existent == null)
+                    {
+                        context.sessions.Add(session);
+                        context.SaveChanges();
+                    }
                     HttpResponseMessage response = this.Request.CreateResponse(HttpStatusCode.Created, model);
 
                     return session.Token;
