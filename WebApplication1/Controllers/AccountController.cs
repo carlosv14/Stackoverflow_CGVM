@@ -212,6 +212,7 @@ namespace WebApplication1.Controllers
        
         }
 
+       
         [Authorize]
         public ActionResult Profile(ProfileModel modelo, Guid Id)
         {
